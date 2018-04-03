@@ -16,17 +16,29 @@ def graph(formula, x_range):
     plt.plot(x,y)
     plt.show()
     
+def set_graph_layout():
+    plt.xlim(0,6000)
+    plt.ylim(0,400)
+    plt.annotate('Inside', xy=(0,0), xytext=(10,300), color ='c')
+    plt.annotate('Leia', xy=(0,0), xytext=(10,280), color ='c')
+    plt.annotate('Outside', xy=(0,0), xytext=(1000,300), color ='c')
+    plt.annotate('Leia', xy=(0,0), xytext=(1000,280), color ='c')
+    plt.axvline(x=540, color = 'c')
+    plt.legend(loc='upper right', frameon=True)
+    plt.xlabel('Dr. Meter')
+    plt.ylabel('ALS')
 
-    
 # "r" forces python to interpret the info literally
 # Note that loadtxt *assumes* your data is in numeric form, 
 # so if there's a header with column names, you should remove that before reading
-data=np.loadtxt(r"/Users/elishatam/Documents/elisha/Python Course/Practice/ALS-ALM/alsalm_2.csv")
+#data=np.loadtxt(r"/Users/elishatam/Documents/elisha/Python Course/Practice/ALS-ALM/alsalm_2.csv")
+data=np.loadtxt(r"alsalm_2.csv")
 drmeter=data[:,0]
 evt2h41=data[:,1]
 evt2h43=data[:,2]
 
-data2=np.loadtxt(r"/Users/elishatam/Documents/elisha/Python Course/Practice/ALS-ALM/EVT2H38_EVT2H20.csv")
+#data2=np.loadtxt(r"/Users/elishatam/Documents/elisha/Python Course/Practice/ALS-ALM/EVT2H38_EVT2H20.csv")
+data2=np.loadtxt(r"EVT2H38_EVT2H20.csv")
 drmeter2=data2[:,0]
 evt2h38=data2[:,1]
 evt2h20=data2[:,2]
@@ -43,30 +55,27 @@ eqn_old = str(slope_old) + '*x'
 inv_eqn_old = str(als_alm_conv_old) + '*y'
 
 plt.gcf().clear()
+plt.figure(1)
+
+# First Plot
+plt.subplot(211)
 plt.plot(drmeter,evt2h41,'b.',markersize=12, label="EVT2H41 ALS, build 409")
 plt.plot(drmeter,evt2h43,'g.',markersize=12, label="EVT2H43 ALS, build 409")
-plt.plot(drmeter2,evt2h38,'r.',markersize=12, label="EVT2H38 ALS")
-plt.plot(drmeter2,evt2h20,'y.',markersize=12, label="EVT2H20 ALS")
+plt.title('ALS v. ALM')
 graph(eqn, range(0,6000))
 
-#graph(eqn_old, range(0,6000))
+plt.annotate('y = ' + eqn , xy=(3000,1), xytext=(4000,300), color = 'b')
+plt.annotate('x = ' + inv_eqn , xy=(3000,1), xytext=(4000,275), color = 'b')
+plt.annotate('y = ' + eqn , xy=(3000,1), xytext=(4000,300), color = 'b')
+plt.annotate('x = ' + inv_eqn , xy=(3000,1), xytext=(4000,275), color = 'b')
+set_graph_layout()
 
+
+# Second Plot
+plt.subplot(212)
+plt.plot(drmeter2,evt2h38,'r.',markersize=12, label="EVT2H38 ALS")
+plt.plot(drmeter2,evt2h20,'y.',markersize=12, label="EVT2H20 ALS")
+graph(eqn_old, range(0,6000))
 #graph('0.015*x', range(0,6000))
- 
-plt.title('ALS v. ALM')
-plt.xlabel('Dr. Meter')
-plt.ylabel('ALS')
-plt.xlim(0,1000)
-plt.ylim(0,500)
-plt.annotate('y = ' + eqn , xy=(3000,1), xytext=(4000,300), color = 'b')
-plt.annotate('x = ' + inv_eqn , xy=(3000,1), xytext=(4000,275), color = 'b')
-plt.axvline(x=540, color = 'c')
-plt.annotate('Inside', xy=(0,0), xytext=(10,300), color ='c')
-plt.annotate('Leia', xy=(0,0), xytext=(10,280), color ='c')
-plt.annotate('Outside', xy=(0,0), xytext=(1000,300), color ='c')
-plt.annotate('Leia', xy=(0,0), xytext=(1000,280), color ='c')
-# Plot legend
-plt.legend(loc='upper right', frameon=True)
-plt.annotate('y = ' + eqn , xy=(3000,1), xytext=(4000,300), color = 'b')
-plt.annotate('x = ' + inv_eqn , xy=(3000,1), xytext=(4000,275), color = 'b')
+set_graph_layout()
 
