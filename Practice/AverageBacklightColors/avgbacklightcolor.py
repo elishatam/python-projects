@@ -12,17 +12,18 @@ import numpy as np
 # "r" forces python to interpret the info literally
 # Note that loadtxt *assumes* your data is in numeric form, 
 # so if there's a header with column names, you should remove that before reading
-data=np.loadtxt(r"/Users/elishatam/Documents/Repos/python-projects/Practice/AverageBacklightColors/EVT2PhonesforRed.csv", delimiter=',',skiprows=1)
+data=np.loadtxt(r"/Users/elishatam/Documents/Repos/python-projects/Practice/AverageBacklightColors/EVT2PhonesforRed.csv", delimiter=',',skiprows=1,usecols=(4,5,6,7,8,9,10,11))
+#data=np.loadtxt(r"/Users/elishatam/Documents/Repos/python-projects/Practice/AverageBacklightColors/EVT2PhonesforRed-old.csv", delimiter=',')
 native_x=data[:,0]
 native_y=data[:,1]
 native_lum=data[:,2]
 norm_r=data[:,3]
 norm_g=data[:,4]
 norm_b=data[:,5]
-lum_loss=data[:,6]
-norm_r_gamma=data[:,7]
-norm_g_gamma=data[:,8]
-norm_b_gamma=data[:,9]
+#lum_loss=data[:,6]
+#norm_r_gamma=data[:,7]
+#norm_g_gamma=data[:,8]
+#norm_b_gamma=data[:,9]
 
 plt.gcf().clear()
 plt.figure(1)
