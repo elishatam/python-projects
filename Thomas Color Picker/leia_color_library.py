@@ -101,4 +101,5 @@ def plot_planckian_locus(ax_plt):
     ax_plt.plot(xp, yp, 'k--', linewidth=1)
 
 def set_display_color(url, col):
+    print("hello")
     requests.post(url + "/" + col)

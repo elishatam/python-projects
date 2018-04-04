@@ -1,14 +1,14 @@
 #import cs2000Wrapper as cs2000
 import time
-#from leia_color_library import *
+from leia_color_library import set_display_color
 #import leia_color_library
 
 colors = ['white', 'green', 'blue', 'red']
-ip = 'http://192.168.1.117:8081'
+ip = 'http://192.168.1.163:8081'
 #camera = cs2000.CS2000(mode='color', log=False)
 
 for c in colors:
-    #set_display_color(ip, c)
+    set_display_color(ip, c)
     time.sleep(1)
     #x, y, L = camera.measure()
     #print(c, x, y, L)
