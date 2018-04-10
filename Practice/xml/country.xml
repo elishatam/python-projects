@@ -1,0 +1,7 @@
+<country name="Hungary">
+    <rank>1</rank>
+    <year>2008</year>
+    <gdppc>141100</gdppc>
+    <neighbor direction="E" name="Austria"/>
+    <neighbor direction="W" name="Switzerland"/>
+</country>
