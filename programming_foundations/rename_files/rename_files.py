@@ -1,7 +1,7 @@
 import os
 
 #directory="C:\Downloads"
-directory=r"C:\git\python-projects\programming_foundations\rename_files\prank"
+directory=r"C:\git\python-projects\programming_foundations\rename_files\message"
 
 def rename_files():
     #1 get file names from a folder
