@@ -25,16 +25,18 @@ def draw_shape():
     brad.shape("turtle")
     brad.color("blue")
     brad.speed(2)
-    draw_square(brad)
+    for i in range(1,37):
+        draw_square(brad)
+        brad.right(10)
 
-    #Create turtle Angie - Draws a circle
-    angie = turtle.Turtle()
-    angie.color("red")
-    angie.circle(100)
-
-    #Create turtle Beth - Draws a triangle
-    beth = turtle.Turtle()
-    draw_triangle(beth)
+    # #Create turtle Angie - Draws a circle
+    # angie = turtle.Turtle()
+    # angie.color("red")
+    # angie.circle(100)
+    #
+    # #Create turtle Beth - Draws a triangle
+    # beth = turtle.Turtle()
+    # draw_triangle(beth)
 
     window.exitonclick()
 
