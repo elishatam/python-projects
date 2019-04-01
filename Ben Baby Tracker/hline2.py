@@ -19,18 +19,30 @@ df['Date'] = df['Time'].dt.date #https://stackoverflow.com/questions/16176996/ke
 df['TimeOnly'] = df['Time'].dt.time
 df['DateString'] = df['Date'].astype('|S') #https://stackoverflow.com/questions/33957720/how-to-convert-column-with-dtype-as-object-to-string-in-pandas-dataframe
 #df['EndTime_TimeOnly'] = df.TimeOnly + pd.to_timedelta(df.TotalDuration, unit='m')
+#df['TimeOnly2'] = pd.to_timedelta(pd.to_datetime(df.TimeOnly).dt.strftime('%H:%M:%S'))
 
+df['new_date'] = [d.date() for d in df['Time']] #https://stackoverflow.com/questions/35595710/splitting-timestamp-column-into-seperate-date-and-time-columns
+df['new_time'] = [d.time() for d in df['Time']]
+df['new_time2'] = df['new_time'] + pd.Timedelta(minutes=2)
 #print(df['DateString'])
-#print(df['TimeOnly'])
-print(df)
+print(df['Time'])
+print(df['Date'])
+print(df['TimeOnly'])
+print(df['new_date'])
+print(df['new_time'])
 
+#print(df['EndTime_TimeOnly'])
+#print(df)
+
+#df.TimeOnly = pd.to_datetime(df.TimeOnly)
+#print(df.TimeOnly)
 #https://stackoverflow.com/questions/29370057/select-dataframe-rows-between-two-dates
 #mask = (df['Time'] > '2017-08-02 17:00:00') & (df['Time'] <= '2017-08-03')
 #print(df.loc[mask])
 #print(df.Time)
 
 
-
+'''
 #print(dt.date2num(df.Time)) #doesn't work
 #print(df.Time.astype(datetime))
 df.Time = df.Time.astype(datetime) #Need to change dtype to datetime.date instances
@@ -56,3 +68,4 @@ ax = ax.xaxis_date()
 ax = plt.hlines(df.DateString, dt.date2num(df.Time), dt.date2num(df.EndTime), linewidth=15, color="red")
 
 plt.show()
+'''
