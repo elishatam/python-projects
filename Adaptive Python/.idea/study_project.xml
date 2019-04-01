@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="StudySettings">
+    <StudyTaskManager>
+      <option name="course">
+        <RemoteCourse>
+          <option name="adaptive" value="true" />
+          <option name="authors">
+            <list />
+          </option>
+          <option name="compatible" value="true" />
+          <option name="courseMode" value="Study" />
+          <option name="courseType" value="PyCharm" />
+          <option name="customPresentableName" />
+          <option name="description" value="This is a Stepik Adaptive course.&#10;&#10;Adaptive problem set to learn Python. &#13;&#10;Join the course and you can try out the first prototype of the adaptive engine! &#10;&#10;Initially, the adaptive system may behave somewhat randomly, but the more problems you solve, the smarter it becomes!" />
+          <option name="id" value="568" />
+          <option name="index" value="-1" />
+          <option name="instructors">
+            <list />
+          </option>
+          <option name="language" value="Python" />
+          <option name="languageCode" value="en" />
+          <option name="loadSolutions" value="true" />
+          <option name="name" value="Adaptive Python" />
+          <option name="public" value="true" />
+          <option name="sectionIds">
+            <list>
+              <option value="1785" />
+              <option value="1786" />
+            </list>
+          </option>
+          <option name="stepikChangeStatus" value="UP_TO_DATE" />
+          <option name="type" value="pycharm Python" />
+          <option name="updateDate" value="1521156759000" />
+          <option name="items">
+            <list>
+              <Lesson>
+                <option name="customPresentableName" />
+                <option name="id" value="30629" />
+                <option name="index" value="1" />
+                <option name="name" value="Adaptive" />
+                <option name="stepikChangeStatus" value="UP_TO_DATE" />
+                <option name="updateDate" />
+                <option name="taskList">
+                  <list>
+                    <TheoryTask>
+                      <option name="additionalFiles">
+                        <map />
+                      </option>
+                      <option name="customPresentableName" />
+                      <option name="descriptionFormat" value="HTML" />
+                      <option name="descriptionText" value="This is the longest repeat problem task." />
+                      <option name="index" value="1" />
+                      <option name="name" value="The Longest Repeat Problem" />
+                      <option name="status" value="Solved" />
+                      <option name="stepId" value="112537" />
+                      <option name="stepikChangeStatus" value="UP_TO_DATE" />
+                      <option name="testsText">
+                        <map />
+                      </option>
+                      <option name="updateDate" />
+                      <option name="taskFiles">
+                        <map>
+                          <entry key="task.py">
+                            <value>
+                              <TaskFile>
+                                <option name="answerPlaceholders">
+                                  <list />
+                                </option>
+                                <option name="highlightErrors" value="false" />
+                                <option name="trackChanges" value="true" />
+                                <option name="trackLengths" value="true" />
+                                <option name="userCreated" value="false" />
+                                <option name="name" value="task.py" />
+                                <option name="text" value="#  this is a the longest repeat problem task. You can use this editor as a playground&#10;&#10;" />
+                              </TaskFile>
+                            </value>
+                          </entry>
+                        </map>
+                      </option>
+                    </TheoryTask>
+                  </list>
+                </option>
+                <option name="unitId" value="0" />
+              </Lesson>
+            </list>
+          </option>
+        </RemoteCourse>
+      </option>
+      <option name="VERSION" value="9" />
+      <option name="myUserTests">
+        <map />
+      </option>
+    </StudyTaskManager>
+  </component>
+</project>

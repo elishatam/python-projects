@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="204271a5-1a60-456e-919c-acaab0410e43" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="truthiness.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assertion Types/Assertion Types/truthiness.py">
+          <provider selected="true" editor-type-id="StudyEditor">
+            <state relative-caret-position="-84">
+              <caret line="14" column="40" lean-forward="true" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="comparison_assertions.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assertion Types/Comparison Assertions/comparison_assertions.py">
+          <provider selected="true" editor-type-id="StudyEditor">
+            <state relative-caret-position="354">
+              <caret line="65" column="33" lean-forward="true" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="possible_test_results.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Introduction/The possible test results/possible_test_results.py">
+          <provider selected="true" editor-type-id="StudyEditor">
+            <state relative-caret-position="85">
+              <caret line="5" column="46" lean-forward="true" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Introduction/Hello, World!/hello_world.py" />
+        <option value="$PROJECT_DIR$/Introduction/Your first unit test/test_hello_someone.py" />
+        <option value="$PROJECT_DIR$/Introduction/The possible test results/possible_test_results.py" />
+        <option value="$PROJECT_DIR$/Assertion Types/Assertion Types/truthiness.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="275" />
+    <option name="y" value="24" />
+    <option name="width" value="1643" />
+    <option name="height" value="996" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="Course" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Course">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Python Unit-Testing Course" type="a264ea2a:RootNode" />
+              <item name="Python Unit-Testing Course" type="ed842865:CourseNode" />
+            </path>
+            <path>
+              <item name="Python Unit-Testing Course" type="a264ea2a:RootNode" />
+              <item name="Python Unit-Testing Course" type="ed842865:CourseNode" />
+              <item name="Introduction" type="d53b8fed:LessonNode" />
+            </path>
+            <path>
+              <item name="Python Unit-Testing Course" type="a264ea2a:RootNode" />
+              <item name="Python Unit-Testing Course" type="ed842865:CourseNode" />
+              <item name="Introduction" type="d53b8fed:LessonNode" />
+              <item name="Your first unit test" type="4928525d:TaskNode" />
+            </path>
+            <path>
+              <item name="Python Unit-Testing Course" type="a264ea2a:RootNode" />
+              <item name="Python Unit-Testing Course" type="ed842865:CourseNode" />
+              <item name="Introduction" type="d53b8fed:LessonNode" />
+              <item name="The possible test results" type="4928525d:TaskNode" />
+            </path>
+            <path>
+              <item name="Python Unit-Testing Course" type="a264ea2a:RootNode" />
+              <item name="Python Unit-Testing Course" type="ed842865:CourseNode" />
+              <item name="Assertion Types" type="d53b8fed:LessonNode" />
+            </path>
+            <path>
+              <item name="Python Unit-Testing Course" type="a264ea2a:RootNode" />
+              <item name="Python Unit-Testing Course" type="ed842865:CourseNode" />
+              <item name="Assertion Types" type="d53b8fed:LessonNode" />
+              <item name="Assertion Types" type="4928525d:TaskNode" />
+            </path>
+            <path>
+              <item name="Python Unit-Testing Course" type="a264ea2a:RootNode" />
+              <item name="Python Unit-Testing Course" type="ed842865:CourseNode" />
+              <item name="Assertion Types" type="d53b8fed:LessonNode" />
+              <item name="Comparison Assertions" type="4928525d:TaskNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python tests.Unittests for truthiness.TestIntegerTruthiness.test_other_value">
+    <configuration name="Unittests for possible_test_results.TestPossibleResults" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Python Unit-Testing Course" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Introduction/The possible test results" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;possible_test_results.TestPossibleResults&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    </configuration>
+    <configuration name="Unittests for possible_test_results.TestPossibleResults.test_error" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Python Unit-Testing Course" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Introduction/The possible test results" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;possible_test_results.TestPossibleResults.test_error&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    </configuration>
+    <configuration name="Unittests for possible_test_results.TestPossibleResults.test_success" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Python Unit-Testing Course" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Introduction/The possible test results" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;possible_test_results.TestPossibleResults.test_success&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    </configuration>
+    <configuration name="Unittests for truthiness.TestIntegerTruthiness.test_other_value" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Python Unit-Testing Course" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Assertion Types/Assertion Types" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;truthiness.TestIntegerTruthiness.test_other_value&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    </configuration>
+    <configuration name="Unittests in possible_test_results.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Python Unit-Testing Course" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Introduction/The possible test results" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Introduction/The possible test results/possible_test_results.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <list>
+      <item itemvalue="Python tests.Unittests for possible_test_results.TestPossibleResults" />
+      <item itemvalue="Python tests.Unittests for possible_test_results.TestPossibleResults.test_success" />
+      <item itemvalue="Python tests.Unittests in possible_test_results.py" />
+      <item itemvalue="Python tests.Unittests for possible_test_results.TestPossibleResults.test_error" />
+      <item itemvalue="Python tests.Unittests for truthiness.TestIntegerTruthiness.test_other_value" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Unittests for truthiness.TestIntegerTruthiness.test_other_value" />
+        <item itemvalue="Python tests.Unittests for possible_test_results.TestPossibleResults.test_error" />
+        <item itemvalue="Python tests.Unittests for possible_test_results.TestPossibleResults.test_success" />
+        <item itemvalue="Python tests.Unittests in possible_test_results.py" />
+        <item itemvalue="Python tests.Unittests for possible_test_results.TestPossibleResults" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="204271a5-1a60-456e-919c-acaab0410e43" name="Default" comment="" />
+      <created>1531340185125</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1531340185125</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_for_possible_test_results_TestPossibleResults - 2018.07.11 at 13h 51m 49s.xml">
+      <configuration name="Unittests for possible_test_results.TestPossibleResults" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_possible_test_results_TestPossibleResults_test_success - 2018.07.11 at 13h 52m 27s.xml">
+      <configuration name="Unittests for possible_test_results.TestPossibleResults.test_success" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_possible_test_results_py - 2018.07.11 at 13h 54m 44s.xml">
+      <configuration name="Unittests in possible_test_results.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_possible_test_results_TestPossibleResults - 2018.07.11 at 13h 55m 11s.xml">
+      <configuration name="Unittests for possible_test_results.TestPossibleResults" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_possible_test_results_py - 2018.07.11 at 13h 55m 58s.xml">
+      <configuration name="Unittests in possible_test_results.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_possible_test_results_TestPossibleResults_test_success - 2018.07.11 at 13h 58m 16s.xml">
+      <configuration name="Unittests for possible_test_results.TestPossibleResults.test_success" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_possible_test_results_TestPossibleResults_test_success - 2018.07.11 at 13h 58m 28s.xml">
+      <configuration name="Unittests for possible_test_results.TestPossibleResults.test_success" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_possible_test_results_TestPossibleResults_test_error - 2018.07.11 at 13h 58m 58s.xml">
+      <configuration name="Unittests for possible_test_results.TestPossibleResults.test_error" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_truthiness_TestIntegerTruthiness_test_other_value - 2018.07.11 at 14h 09m 06s.xml">
+      <configuration name="Unittests for truthiness.TestIntegerTruthiness.test_other_value" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_truthiness_TestIntegerTruthiness_test_other_value - 2018.07.11 at 14h 09m 56s.xml">
+      <configuration name="Unittests for truthiness.TestIntegerTruthiness.test_other_value" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="275" y="24" width="1643" height="996" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19962098" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Task Description" visible="true" weight="0.3120657" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3298611" />
+      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Introduction/Your first unit test/hello_someone.py">
+      <provider selected="true" editor-type-id="StudyEditor">
+        <state relative-caret-position="17">
+          <caret line="1" column="36" lean-forward="true" selection-start-line="1" selection-start-column="36" selection-end-line="1" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Introduction/Hello, World!/hello_world.py">
+      <provider selected="true" editor-type-id="StudyEditor">
+        <state relative-caret-position="374">
+          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Introduction/Your first unit test/test_hello_someone.py">
+      <provider selected="true" editor-type-id="StudyEditor">
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/_jb_unittest_runner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python34/Lib/unittest/case.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Introduction/The possible test results/possible_test_results.py">
+      <provider selected="true" editor-type-id="StudyEditor">
+        <state relative-caret-position="85">
+          <caret line="5" column="46" lean-forward="true" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assertion Types/Assertion Types/truthiness.py">
+      <provider selected="true" editor-type-id="StudyEditor">
+        <state relative-caret-position="-84">
+          <caret line="14" column="40" lean-forward="true" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assertion Types/Comparison Assertions/comparison_assertions.py">
+      <provider selected="true" editor-type-id="StudyEditor">
+        <state relative-caret-position="354">
+          <caret line="65" column="33" lean-forward="true" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

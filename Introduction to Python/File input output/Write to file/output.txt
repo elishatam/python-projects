@@ -1,0 +1,4 @@
+This is output file.
+lion
+elephant
+monkey
