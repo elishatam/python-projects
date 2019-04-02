@@ -82,6 +82,7 @@ print(df)
 
 
 fig = plt.figure()
+
 ax = fig.add_subplot(111)
 #hours = dtm.HourLocator()
 #ax.xaxis.set_major_locator(hours)
@@ -105,5 +106,6 @@ ax.xaxis.set_major_locator(dtm.HourLocator(byhour=range(0,24,4)))
 #ax = plt.hlines(df.DateString, dtm.date2num(df.C), dtm.date2num(df.D), linewidth=15, color="red")
 ax = plt.hlines(df.DateString, dtm.date2num(df.A), dtm.date2num(df.B), linewidth=15, color="red")
 
-plt.xticks(rotation=90)
+plt.xticks(rotation=0)
+fig.tight_layout()
 plt.show()
