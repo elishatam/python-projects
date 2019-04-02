@@ -83,8 +83,13 @@ print(df)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-hours = dtm.HourLocator()
-ax.xaxis.set_major_locator(hours)
+#hours = dtm.HourLocator()
+#ax.xaxis.set_major_locator(hours)
+ax.xaxis.set_major_formatter(dtm.DateFormatter('%I:%M %p'))
+ax.xaxis.set_major_locator(dtm.HourLocator(byhour=range(0,24,4)))
+
+
+
 #myFmt = dtm.DateFormatter('%H:%M')
 #ax = ax.xaxis.set_major_formatter(myFmt)
 #ax = ax.xaxis_date()   #Change format later: https://stackoverflow.com/questions/14946371/editing-the-date-formatting-of-x-axis-tick-labels-in-matplotlib
@@ -100,4 +105,5 @@ ax.xaxis.set_major_locator(hours)
 #ax = plt.hlines(df.DateString, dtm.date2num(df.C), dtm.date2num(df.D), linewidth=15, color="red")
 ax = plt.hlines(df.DateString, dtm.date2num(df.A), dtm.date2num(df.B), linewidth=15, color="red")
 
+plt.xticks(rotation=90)
 plt.show()
