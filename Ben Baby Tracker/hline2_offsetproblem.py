@@ -16,11 +16,10 @@ df['EndTime'] = df.Time + pd.to_timedelta(df.TotalDuration, unit='m')
 df['EndTimeTOnly'] = df['EndTime'].dt.time
 df['DateString'] = df['DOnly'].astype('|S') #https://stackoverflow.com/questions/33957720/how-to-convert-column-with-dtype-as-object-to-string-in-pandas-dataframe
 #df['test'] = datetime.combine(date.today(), df['TOnly']) #https://stackoverflow.com/questions/656297/python-time-timedelta-equivalent
-df['A']=df.Time.map(lambda t: t.replace(year=2019, month=1, day=1)) #https://stackoverflow.com/questions/17152719/change-date-of-a-datetimeindex
-df['B']=df.EndTime.map(lambda t: t.replace(year=2019, month=1, day=1))
+
 df.info()
 df
-#print(df)
+print(df)
 
 
 #print(df.Time)
@@ -66,28 +65,16 @@ df.EndTime = df.EndTime.astype(datetime)
 #df.TimeOnly = df.TimeOnly.astype(datetime)
 df.TOnly = df.TOnly.astype(datetime)
 
-df['C'] = df['Time'].apply(lambda x: x.strftime('%H:%M'))
-df['D'] = df['EndTime'].apply(lambda x: x.strftime('%H:%M'))
-df.C = df.C.astype(datetime)
-df.D = df.D.astype(datetime)
-df.A = df.A.astype(datetime)
-df.B = df.B.astype(datetime)
-
 print(df.Time)
 
 df.info()
 df
 #df[df.Time]
-print(df)
 
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-hours = dtm.HourLocator()
-ax.xaxis.set_major_locator(hours)
-#myFmt = dtm.DateFormatter('%H:%M')
-#ax = ax.xaxis.set_major_formatter(myFmt)
-#ax = ax.xaxis_date()   #Change format later: https://stackoverflow.com/questions/14946371/editing-the-date-formatting-of-x-axis-tick-labels-in-matplotlib
+ax = ax.xaxis_date()   #Change format later: https://stackoverflow.com/questions/14946371/editing-the-date-formatting-of-x-axis-tick-labels-in-matplotlib
 #ax = plt.hlines(df.Number, dt.date2num(df.Time), dt.date2num(df.endtime), linewidth=15, color=df.color)
 #ax = plt.hlines(df.Number, dt.date2num(df.Time), dt.date2num(df.endtime), linewidth=15, color=colors[(df.resource)])
 #ax = plt.hlines(df.Number, dt.date2num(df.Time), dt.date2num(df.endtime), linewidth=15, color=colors['Sleep'])
@@ -95,9 +82,6 @@ ax.xaxis.set_major_locator(hours)
 #ax = plt.hlines(df.Baby, df.Time, df.EndTime, linewidth=15, color="red")
 #dt.date2num = Convert datetime objects to Matplotlib dates.
 #ax = plt.hlines(df.Baby, dt.date2num(df.Time), dt.date2num(df.EndTime), linewidth=15, color="red")
-#ax = plt.hlines(df.DateString, dtm.date2num(df.Time).apply(lambda x: x.strftime('%H:%M')), dtm.date2num(df.EndTime).apply(lambda x: x.strftime('%H:%M')), linewidth=15, color="red")
-#ax = plt.hlines(df.DateString, dtm.date2num(df.Time), dtm.date2num(df.EndTime), linewidth=15, color="red")
-#ax = plt.hlines(df.DateString, dtm.date2num(df.C), dtm.date2num(df.D), linewidth=15, color="red")
-ax = plt.hlines(df.DateString, dtm.date2num(df.A), dtm.date2num(df.B), linewidth=15, color="red")
+ax = plt.hlines(df.DateString, dtm.date2num(df.Time), dtm.date2num(df.EndTime), linewidth=15, color="red")
 
 plt.show()
