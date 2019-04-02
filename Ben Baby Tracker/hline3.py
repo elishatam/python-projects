@@ -34,7 +34,6 @@ df.TOnly = df.TOnly.astype(datetime)
 '''
 
 df['A'] = pd.period_range('2019-01', periods=18, freq='H')
-df['B'] = df.Time.strftime('%A')
 df.info()
 df
 print(df)
