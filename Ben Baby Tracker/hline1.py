@@ -20,7 +20,7 @@ colors = {
 
 print(dt.date2num(df.starttime))
 
-'''
+
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax = ax.xaxis_date()
@@ -39,7 +39,7 @@ ax = plt.hlines(df.Number, dt.date2num(df.starttime), dt.date2num(df.endtime), l
 #But when I run the below line with what I think would be the value returned from the key, it works fine.
 #ax = plt.hlines(df.Number, dt.date2num(df.starttime), dt.date2num(df.endtime), linewidth=15, color=colors['Sleep'])
 plt.show()
-'''
+
 
 
 '''
