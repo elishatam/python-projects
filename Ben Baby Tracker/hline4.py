@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as dtm
 import matplotlib.patches as mpatches
 
-df = pd.read_csv('2weeks.csv')
+df = pd.read_csv('1week.csv')
 
 #Pandas to_datetime() converts string Date time into Python date time object
 df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
@@ -59,7 +59,9 @@ colors = {
 	"Dirty": "blue",
 	"Mixed": "blue",
 	"BottleFormula": "green",
-	"BottlePumped": "green"
+	"BottlePumped": "green",
+	"Eat": "black",
+	"Work": "green"
 }
 
 #ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate), dtm.date2num(df.EndTime_SameDate), linewidth=15, color=df['Resource'].map(colors))
@@ -71,6 +73,8 @@ sleep_patch=mpatches.Patch(color=colors["Sleep"], label='Sleep')
 nursing_patch=mpatches.Patch(color=colors["Nursing"], label='Nursing')
 diaper_patch=mpatches.Patch(color=colors["Wet"], label='Diaper')
 bottle_patch=mpatches.Patch(color=colors["BottleFormula"], label='Bottle')
+eat_patch=mpatches.Patch(color=colors["Eat"], label='Eat')
+work_patch=mpatches.Patch(color=colors["Work"], label='Work')
 
 plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, bottle_patch]) #bbox_to_anchor=(0.1, 0)
 
