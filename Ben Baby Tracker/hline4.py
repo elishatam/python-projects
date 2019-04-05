@@ -50,7 +50,8 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.xaxis.set_major_formatter(dtm.DateFormatter('%I:%M %p'))
 ax.xaxis.set_major_locator(dtm.HourLocator(byhour=range(0,24,4)))
-
+ax.xaxis.tick_top()
+ax.xaxis.set_label_position('top')
 
 colors = {
 	"Sleep": "red",
@@ -76,9 +77,13 @@ bottle_patch=mpatches.Patch(color=colors["BottleFormula"], label='Bottle')
 eat_patch=mpatches.Patch(color=colors["Eat"], label='Eat')
 work_patch=mpatches.Patch(color=colors["Work"], label='Work')
 
-plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, bottle_patch]) #bbox_to_anchor=(0.1, 0)
-
+plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, bottle_patch], bbox_to_anchor=(0., -.15, 1., .102), loc=3,
+           ncol=2, mode="expand", borderaxespad=0.) #bbox_to_anchor=(0.9, 0.3)
+#plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, bottle_patch], bbox_to_anchor=(1.05, 1))
 #plt.margins(.15)  #So xticks start at 12:00am
 plt.xticks(rotation=90)
 fig.tight_layout()  #Border will fit around axis
+plt.gca().invert_yaxis()
+#plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
+#plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 plt.show()
