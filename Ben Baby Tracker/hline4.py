@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as dtm
 import matplotlib.patches as mpatches
 
-df = pd.read_csv('firstmonth.csv')
+df = pd.read_csv('month3_fixsleep.csv')
 
 #Pandas to_datetime() converts string Date time into Python date time object
 df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
@@ -46,10 +46,12 @@ df.info()
 df
 print(df)
 
+#fig = plt.figure(figsize=(5,5))
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.xaxis.set_major_formatter(dtm.DateFormatter('%I:%M %p'))
 ax.xaxis.set_major_locator(dtm.HourLocator(byhour=range(0,24,4)))
+ax.xaxis.set_minor_locator(dtm.HourLocator(byhour=range(0,24,1)))
 ax.xaxis.tick_top()
 ax.xaxis.set_label_position('top')
 
@@ -60,14 +62,13 @@ colors = {
 	'Dirty': '#00bfff',
 	'Mixed': '#00bfff',
 	'BottleFormula': '#ffffff',
-	'BottlePumped': '#ffffff',
+	'BottlePumped': '#ff8c00',
 	'Eat': '#F3050D',
 	'Work': '#7fff00'
 }
 
-#ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate), dtm.date2num(df.EndTime_SameDate), linewidth=15, color=df['Resource'].map(colors))
+#ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=15, color=df['Resource'].map(colors))
 ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(colors))
-#ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=15, color='#0f0f0f')
 
 #Make own legend: https://stackoverflow.com/questions/39500265/manually-add-legend-items-python-matplotlib
 #red_patch=mpatches.Patch(color='red', label='Sleep')
@@ -79,7 +80,7 @@ eat_patch=mpatches.Patch(color=colors["Eat"], label='Eat')
 work_patch=mpatches.Patch(color=colors["Work"], label='Personal')
 
 plt.legend(handles=[sleep_patch,nursing_patch, diaper_patch, eat_patch, work_patch], bbox_to_anchor=(0., -.1, 1, .102), loc=3,
-#plt.legend(handles=[sleep_patch, eat_patch, work_patch], bbox_to_anchor=(0., 1.02, 1, .102), loc=3,
+#plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, eat_patch, work_patch], bbox_to_anchor=(0., 1.02, 1, .102), loc=3,
            ncol=5, mode="expand", borderaxespad=0.) #bbox_to_anchor=(0.9, 0.3)
 #plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, bottle_patch], bbox_to_anchor=(1.05, 1))
 #plt.margins(.15)  #So xticks start at 12:00am
