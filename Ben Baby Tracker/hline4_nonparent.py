@@ -85,6 +85,7 @@ plt.legend(handles=[sleep_patch, eat_patch, work_patch], bbox_to_anchor=(0., -.1
 plt.xticks(rotation=90)
 fig.tight_layout()  #Border will fit around axis
 plt.gca().invert_yaxis()
+plt.subplots_adjust(bottom=0.13)
 #plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
 #plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 plt.show()

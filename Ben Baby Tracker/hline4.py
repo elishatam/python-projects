@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as dtm
 import matplotlib.patches as mpatches
 
-df = pd.read_csv('nonparent1week.csv')
+df = pd.read_csv('firstmonth.csv')
 
 #Pandas to_datetime() converts string Date time into Python date time object
 df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
@@ -61,12 +61,12 @@ colors = {
 	'Mixed': '#00bfff',
 	'BottleFormula': '#ffffff',
 	'BottlePumped': '#ffffff',
-	'Eat': '#ff8c00',
+	'Eat': '#F3050D',
 	'Work': '#7fff00'
 }
 
 #ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate), dtm.date2num(df.EndTime_SameDate), linewidth=15, color=df['Resource'].map(colors))
-ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=15, color=df['Resource'].map(colors))
+ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(colors))
 #ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=15, color='#0f0f0f')
 
 #Make own legend: https://stackoverflow.com/questions/39500265/manually-add-legend-items-python-matplotlib
@@ -76,15 +76,18 @@ nursing_patch=mpatches.Patch(color=colors["Nursing"], label='Nursing')
 diaper_patch=mpatches.Patch(color=colors["Wet"], label='Diaper')
 bottle_patch=mpatches.Patch(color=colors["BottleFormula"], label='Bottle')
 eat_patch=mpatches.Patch(color=colors["Eat"], label='Eat')
-work_patch=mpatches.Patch(color=colors["Work"], label='Work')
+work_patch=mpatches.Patch(color=colors["Work"], label='Personal')
 
-plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, bottle_patch], bbox_to_anchor=(0., -.15, 1., .102), loc=3,
-           ncol=2, mode="expand", borderaxespad=0.) #bbox_to_anchor=(0.9, 0.3)
+plt.legend(handles=[sleep_patch,nursing_patch, diaper_patch, eat_patch, work_patch], bbox_to_anchor=(0., -.1, 1, .102), loc=3,
+#plt.legend(handles=[sleep_patch, eat_patch, work_patch], bbox_to_anchor=(0., 1.02, 1, .102), loc=3,
+           ncol=5, mode="expand", borderaxespad=0.) #bbox_to_anchor=(0.9, 0.3)
 #plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, bottle_patch], bbox_to_anchor=(1.05, 1))
 #plt.margins(.15)  #So xticks start at 12:00am
 plt.xticks(rotation=90)
 fig.tight_layout()  #Border will fit around axis
 plt.gca().invert_yaxis()
+plt.subplots_adjust(bottom=0.13)
+#plt.subplots_adjust(bottom=0.19, top=0.92)
 #plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
 #plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 plt.show()
