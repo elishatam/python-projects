@@ -1,56 +1,54 @@
 from datetime import datetime, date
-import pandas as pd
+#import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.dates as dtm
-import matplotlib.patches as mpatches
-import time
+#import matplotlib.dates as dtm
+#import matplotlib.patches as mpatches
 
+filename = "month3_pythonmod.csv"
+plt.figure()
+
+# read all lines into list of strings
+with open(filename, 'r') as f:
+    content = f.readlines()[1:]
+
+content = [x.strip() for x in content]
+
+#Converts to long array
+dates = []
+for line in content:
+    splt = line.split(',')
+    dates.append(datetime.strptime(splt[1], ' %I:%M %p"').time())
+
+print(content)
+'''
 df = pd.read_csv('month3_pythonmod.csv')
-df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
-
-print(df)
-#--------------
-#Create new DF. https://thispointer.com/python-pandas-how-to-add-rows-in-a-dataframe-using-dataframe-append-loc-iloc/
-df2 = df.append({'Time' : '2017-11-01 0:00:00'}, ignore_index=True)
-df2.Time = pd.to_datetime(df2.Time)
-df2.info()
-#print(df2)
-#Find indexes of last row of day
-#compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
-#timestring = "20:00:00"
-#df2[df2['Time'].dt.time > time.strptime(timestring, "%H:%M:%S")]
-#Insert a new row after last row of day
-#Modify last row of day to end at midnight
-#In new row, start at midnight and end
 
 #Pandas to_datetime() converts string Date time into Python date time object
-#df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
-df2['EndTime'] = df2.Time + pd.to_timedelta(df2.TotalDuration, unit='m')
+df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
+df['EndTime'] = df.Time + pd.to_timedelta(df.TotalDuration, unit='m')
 #df['TimeOnly'] = df['Time'].dt.time   #object
-df2['DateOnly'] = df2['Time'].dt.date   #object
+df['DateOnly'] = df['Time'].dt.date   #object
 #df['DateOnly2'] = df['Time'].dt.normalize() #retains datetime64. https://stackoverflow.com/questions/35595710/splitting-timestamp-column-into-seperate-date-and-time-columns
 #df['EndTimeTOnly'] = df['EndTime'].dt.time
 
 #Make Date a string. Needed for hline y axis
 #https://stackoverflow.com/questions/33957720/how-to-convert-column-with-dtype-as-object-to-string-in-pandas-dataframe
-#df2['DateString'] = df2['DateOnly'].astype('|S') 
+df['DateString'] = df['DateOnly'].astype('|S') 
 
 #Make the same dummy date for the date time so hlines will stack
-#df['Time_SameDate']=df.Time.map(lambda t: t.replace(year=2019, month=1, day=1)) #https://stackoverflow.com/questions/17152719/change-date-of-a-datetimeindex
-#df['EndTime_SameDate']=df.EndTime.map(lambda t: t.replace(year=2019, month=1, day=1))
+df['Time_SameDate']=df.Time.map(lambda t: t.replace(year=2019, month=1, day=1)) #https://stackoverflow.com/questions/17152719/change-date-of-a-datetimeindex
+df['EndTime_SameDate']=df.EndTime.map(lambda t: t.replace(year=2019, month=1, day=1))
 
-df2['Daydifference']=df2.DateOnly - date(2017,8,2)
+df['Daydifference']=df.DateOnly - date(2017,8,2)
 #for index, row in df.iterrows():
 #	df['Time_SameDate2']=df.Time - pd.to_timedelta('1 days')
-df2['Time_SameDate2']=df2.Time - df2.Daydifference
-df2['EndTime_SameDate2']=df2.EndTime - df2.Daydifference
+df['Time_SameDate2']=df.Time - df.Daydifference
+df['EndTime_SameDate2']=df.EndTime - df.Daydifference
 #df.info()
 #df
 #print(df)
-print(df2)
 
 
-'''
 #Need to change dtype to datetime.date instances
 #https://matplotlib.org/gallery/recipes/common_date_problems.html
 #df.Time = df.Time.astype(datetime) 									
@@ -75,8 +73,6 @@ mask = (df['Time_SameDate2'] < compareDate[0])
 
 #print(df.mask(mask))
 print(df.where(mask,10))
-
-
 
 #if df['Time_SameDate2'] > compareDate[0]:
 #	print(df.Time_SameDate2)
