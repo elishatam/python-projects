@@ -8,12 +8,12 @@ import time
 df = pd.read_csv('month3_pythonmod.csv')
 df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
 
-print(df)
+#print(df)
 #--------------
 #Create new DF. https://thispointer.com/python-pandas-how-to-add-rows-in-a-dataframe-using-dataframe-append-loc-iloc/
 df2 = df.append({'Time' : '2017-11-01 0:00:00'}, ignore_index=True)
 df2.Time = pd.to_datetime(df2.Time)
-df2.info()
+#df2.info()
 #print(df2)
 #Find indexes of last row of day
 #compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
@@ -47,9 +47,28 @@ df2['EndTime_SameDate2']=df2.EndTime - df2.Daydifference
 #df.info()
 #df
 #print(df)
+#print(df2)
+#Find indexes of dates after this time
+compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
+midnight_indices = (df2[df2["Time_SameDate2"] > compareDate[0]].index.values) #https://stackoverflow.com/questions/18327624/find-elements-index-in-pandas-series
+																#https://stackoverflow.com/questions/17241004/how-do-i-get-a-dataframe-index-series-column-as-an-array-or-list
+print(midnight_indices)
+
+
+
+#Insert a new row after these indices. Make EndTime of new row the same as EndTime of indexA
+for indexA in midnight_indices:
+	#https://stackoverflow.com/questions/15888648/is-it-possible-to-insert-a-row-at-an-arbitrary-position-in-a-dataframe-using-pan?rq=1
+	line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df2.EndTime_SameDate2[indexA]}, index=[indexA+0.5])
+	df2 = df2.append(line, ignore_index=False)
+
+#Move EndTime_SameDate2 to midnight. 
+for indexA in midnight_indices:
+	df2.iloc[indexA, df2.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
+	
+df2 = df2.sort_index().reset_index(drop=True)
+
 print(df2)
-
-
 '''
 #Need to change dtype to datetime.date instances
 #https://matplotlib.org/gallery/recipes/common_date_problems.html
