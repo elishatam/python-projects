@@ -8,50 +8,53 @@ import time
 df = pd.read_csv('month3_pythonmod.csv')
 df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
 
-#print(df)
+print(df)
 #--------------
 #Create new DF. https://thispointer.com/python-pandas-how-to-add-rows-in-a-dataframe-using-dataframe-append-loc-iloc/
-df2 = df.append({'Time' : '2017-11-01 0:00:00'}, ignore_index=True)
-df2.Time = pd.to_datetime(df2.Time)
-#df2.info()
-#print(df2)
+#df = df0.append({'Time' : '2017-10-11 0:00:00', 'TotalDuration': '10'}, ignore_index=True) 
+df.Time = pd.to_datetime(df.Time)
+
+print(df)
+#df.info()
+#print(df)
 #Find indexes of last row of day
 #compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
 #timestring = "20:00:00"
-#df2[df2['Time'].dt.time > time.strptime(timestring, "%H:%M:%S")]
+#df[df['Time'].dt.time > time.strptime(timestring, "%H:%M:%S")]
 #Insert a new row after last row of day
 #Modify last row of day to end at midnight
 #In new row, start at midnight and end
 
 #Pandas to_datetime() converts string Date time into Python date time object
 #df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
-df2['EndTime'] = df2.Time + pd.to_timedelta(df2.TotalDuration, unit='m')
+df['EndTime'] = df.Time + pd.to_timedelta(df.TotalDuration, unit='m')
 #df['TimeOnly'] = df['Time'].dt.time   #object
-df2['DateOnly'] = df2['Time'].dt.date   #object
+df['DateOnly'] = df['Time'].dt.date   #object
 #df['DateOnly2'] = df['Time'].dt.normalize() #retains datetime64. https://stackoverflow.com/questions/35595710/splitting-timestamp-column-into-seperate-date-and-time-columns
 #df['EndTimeTOnly'] = df['EndTime'].dt.time
 
 #Make Date a string. Needed for hline y axis
 #https://stackoverflow.com/questions/33957720/how-to-convert-column-with-dtype-as-object-to-string-in-pandas-dataframe
-#df2['DateString'] = df2['DateOnly'].astype('|S') 
+df['DateString'] = df['DateOnly'].astype('|S') 
 
 #Make the same dummy date for the date time so hlines will stack
-#df['Time_SameDate']=df.Time.map(lambda t: t.replace(year=2019, month=1, day=1)) #https://stackoverflow.com/questions/17152719/change-date-of-a-datetimeindex
-#df['EndTime_SameDate']=df.EndTime.map(lambda t: t.replace(year=2019, month=1, day=1))
+df['Time_SameDate']=df.Time.map(lambda t: t.replace(year=2019, month=1, day=1)) #https://stackoverflow.com/questions/17152719/change-date-of-a-datetimeindex
+df['EndTime_SameDate']=df.EndTime.map(lambda t: t.replace(year=2019, month=1, day=1))
 
-df2['Daydifference']=df2.DateOnly - date(2017,8,2)
+df['Daydifference']=df.DateOnly - date(2017,8,2)
 #for index, row in df.iterrows():
 #	df['Time_SameDate2']=df.Time - pd.to_timedelta('1 days')
-df2['Time_SameDate2']=df2.Time - df2.Daydifference
-df2['EndTime_SameDate2']=df2.EndTime - df2.Daydifference
+df['Time_SameDate2']=df.Time - df.Daydifference
+df['EndTime_SameDate2']=df.EndTime - df.Daydifference
 #df.info()
 #df
 #print(df)
-#print(df2)
+#print(df)
 #Find indexes of dates after this time
-compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
-midnight_indices = (df2[df2["Time_SameDate2"] > compareDate[0]].index.values) #https://stackoverflow.com/questions/18327624/find-elements-index-in-pandas-series
+compareDate = pd.to_datetime(["2017-08-02 20:10:00"])
+midnight_indices = (df[df["Time_SameDate2"] > compareDate[0]].index.values) #https://stackoverflow.com/questions/18327624/find-elements-index-in-pandas-series
 																#https://stackoverflow.com/questions/17241004/how-do-i-get-a-dataframe-index-series-column-as-an-array-or-list
+#midnight_indices = [0]
 print(midnight_indices)
 
 
@@ -59,17 +62,18 @@ print(midnight_indices)
 #Insert a new row after these indices. Make EndTime of new row the same as EndTime of indexA
 for indexA in midnight_indices:
 	#https://stackoverflow.com/questions/15888648/is-it-possible-to-insert-a-row-at-an-arbitrary-position-in-a-dataframe-using-pan?rq=1
-	line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df2.EndTime_SameDate2[indexA]}, index=[indexA+0.5])
-	df2 = df2.append(line, ignore_index=False)
+	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
+	line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
+	df = df.append(line, ignore_index=False)
 
 #Move EndTime_SameDate2 to midnight. 
 for indexA in midnight_indices:
-	df2.iloc[indexA, df2.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
+	df.iloc[indexA, df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
 	
-df2 = df2.sort_index().reset_index(drop=True)
+df = df.sort_index().reset_index(drop=True)
 
-print(df2)
-'''
+print(df)
+
 #Need to change dtype to datetime.date instances
 #https://matplotlib.org/gallery/recipes/common_date_problems.html
 #df.Time = df.Time.astype(datetime) 									
@@ -83,7 +87,11 @@ df.info()
 df
 print(df)
 
+print(df.DateString)
+print(df.Time_SameDate2)
+print(df.EndTime_SameDate2)
 
+'''
 #print(pd.to_datetime(["2017-08-02 20:00:00"]))
 compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
 
@@ -94,7 +102,7 @@ mask = (df['Time_SameDate2'] < compareDate[0])
 
 #print(df.mask(mask))
 print(df.where(mask,10))
-
+'''
 
 
 #if df['Time_SameDate2'] > compareDate[0]:
@@ -146,4 +154,5 @@ plt.subplots_adjust(bottom=0.13)
 #plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
 #plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 plt.show()
-'''
+
+
