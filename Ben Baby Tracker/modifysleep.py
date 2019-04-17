@@ -51,21 +51,26 @@ df['EndTime_SameDate2']=df.EndTime - df.Daydifference
 #print(df)
 #print(df)
 #Find indexes of dates after this time
-compareDate = pd.to_datetime(["2017-08-02 20:10:00"])
-midnight_indices = (df[df["Time_SameDate2"] > compareDate[0]].index.values) #https://stackoverflow.com/questions/18327624/find-elements-index-in-pandas-series
+compareStartDate = pd.to_datetime(["2017-08-02 21:00:00"])
+compareEndDate = pd.to_datetime(["2017-08-03 00:10:00"])
+midnight_indices = (df[((df["Time_SameDate2"] > compareStartDate[0]))].index.values)
+#midnight_indices = (df[((df["Time_SameDate2"] > compareStartDate[0]) & (df["EndTime_SameDate2"]>compareEndDate[0]))].index.values) #https://stackoverflow.com/questions/18327624/find-elements-index-in-pandas-series
 																#https://stackoverflow.com/questions/17241004/how-do-i-get-a-dataframe-index-series-column-as-an-array-or-list
 #midnight_indices = [0]
 print(midnight_indices)
 
-
+print(df)
 
 #Insert a new row after these indices. Make EndTime of new row the same as EndTime of indexA
 for indexA in midnight_indices:
 	#https://stackoverflow.com/questions/15888648/is-it-possible-to-insert-a-row-at-an-arbitrary-position-in-a-dataframe-using-pan?rq=1
 	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
-	line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
+	line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:10"]), 'Resource': 'Sleep'}, index=[indexA+0.5])
+	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:10"])}, index=[indexA+1])
+	print(line)
 	df = df.append(line, ignore_index=False)
 
+'''
 #Move EndTime_SameDate2 to midnight. 
 for indexA in midnight_indices:
 	df.iloc[indexA, df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
@@ -91,18 +96,7 @@ print(df.DateString)
 print(df.Time_SameDate2)
 print(df.EndTime_SameDate2)
 
-'''
-#print(pd.to_datetime(["2017-08-02 20:00:00"]))
-compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
 
-#https://stackoverflow.com/questions/34586069/valueerror-series-lengths-must-match-to-compare-when-matching-dates-in-pandas
-mask = (df['Time_SameDate2'] < compareDate[0])
-#df  = df.loc[mask]
-#print(df)
-
-#print(df.mask(mask))
-print(df.where(mask,10))
-'''
 
 
 #if df['Time_SameDate2'] > compareDate[0]:
@@ -154,5 +148,5 @@ plt.subplots_adjust(bottom=0.13)
 #plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
 #plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 plt.show()
-
+'''
 
