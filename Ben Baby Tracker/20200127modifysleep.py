@@ -6,15 +6,15 @@ import matplotlib.patches as mpatches
 import time
 
 df = pd.read_csv('3month.csv')
-#df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
+df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
 
 #print(df)
 #--------------
 #Create new DF. https://thispointer.com/python-pandas-how-to-add-rows-in-a-dataframe-using-dataframe-append-loc-iloc/
 #df = df0.append({'Time' : '2017-10-11 0:00:00', 'TotalDuration': '10'}, ignore_index=True) 
-df.Time = pd.to_datetime(df.Time)
+#df.Time = pd.to_datetime(df.Time)
 
-print(df)
+#print(df)
 #df.info()
 #print(df)
 #Find indexes of last row of day
@@ -57,7 +57,7 @@ compareEndDate = pd.to_datetime(["2017-08-03 00:10:00"])
 midnight_indices = (df[((df["Time_SameDate2"] > compareStartDate[0]) & (df["EndTime_SameDate2"]>compareEndDate[0]))].index.values) #https://stackoverflow.com/questions/18327624/find-elements-index-in-pandas-series
 																#https://stackoverflow.com/questions/17241004/how-do-i-get-a-dataframe-index-series-column-as-an-array-or-list
 #midnight_indices = [0]
-print(midnight_indices)
+#print(midnight_indices)
 
 
 
@@ -74,7 +74,7 @@ for indexA in midnight_indices:
 	
 df = df.sort_index().reset_index(drop=True)
 
-print(df)
+#print(df)
 
 #Need to change dtype to datetime.date instances
 #https://matplotlib.org/gallery/recipes/common_date_problems.html
@@ -87,11 +87,11 @@ df.EndTime_SameDate2 = df.EndTime_SameDate2.astype(datetime)
 
 df.info()
 df
-print(df)
+#print(df)
 
-print(df.DateString)
-print(df.Time_SameDate2)
-print(df.EndTime_SameDate2)
+#print(df.DateString)
+#print(df.Time_SameDate2)
+#print(df.EndTime_SameDate2)
 
 '''
 #print(pd.to_datetime(["2017-08-02 20:00:00"]))
