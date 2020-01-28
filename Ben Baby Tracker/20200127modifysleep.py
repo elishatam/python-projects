@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as dtm
 import matplotlib.patches as mpatches
 import time
+from matplotlib.widgets import Slider
 
 df = pd.read_csv('1to6month.csv')
 df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
@@ -174,5 +175,7 @@ plt.subplots_adjust(bottom=0.13)
 #plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
 #plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
 plt.show()
+
+#Add in slider
 
 
