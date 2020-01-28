@@ -5,14 +5,14 @@ import matplotlib.dates as dtm
 import matplotlib.patches as mpatches
 import time
 
-df = pd.read_csv('3month.csv')
+df = pd.read_csv('1to6month.csv')
 df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
 
 # Select observations between two datetimes
 #df[(df['date'] > '2002-1-1 01:00:00') & (df['date'] <= '2002-1-1 04:00:00')]
 #df[(df.Time > "2017-10-10 00:00:00")]
 #df[(df['Time'] > pd.to_datetime(["2017-10-10 00:00:00"]))]
-mask = (df.Time > "2017-10-1") & (df.Time < "2017-10-3")
+mask = (df.Time > "2017-12-1") & (df.Time < "2018-1-01")
 df = df.loc[mask]
 df = df.sort_index().reset_index(drop=True)
 print(df)
@@ -70,26 +70,26 @@ print(midnight_indices)
 
 
 #Insert a new row after these indices. Make EndTime of new row the same as EndTime of indexA
-#for indexA in midnight_indices:
+for indexA in midnight_indices:
 	#https://stackoverflow.com/questions/15888648/is-it-possible-to-insert-a-row-at-an-arbitrary-position-in-a-dataframe-using-pan?rq=1
 	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
 	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
-	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
-	#df = df.append(line, ignore_index=False)
-'''
-indexA = 230
+	line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
+	df = df.append(line, ignore_index=False)
+
+#indexA = 230
 #line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
 #df = df.append(line, ignore_index=False)
-print(df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1))
-print(df.DateString[indexA+1])
+#print(df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1))
+#print(df.DateString[indexA+1])
 #print([indexA+0.5])
 
 #Move EndTime_SameDate2 to midnight. 
-#for indexA in midnight_indices:
-	#df.iloc[indexA, df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
+for indexA in midnight_indices:
+	df.iloc[indexA, df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
 
 #df.iloc[indexA, df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])	
-#df = df.sort_index().reset_index(drop=True)
+df = df.sort_index().reset_index(drop=True)
 
 #print(df)
 
@@ -176,4 +176,3 @@ plt.subplots_adjust(bottom=0.13)
 plt.show()
 
 
-'''
