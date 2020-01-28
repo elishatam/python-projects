@@ -8,7 +8,14 @@ import time
 df = pd.read_csv('3month.csv')
 df.Time = pd.to_datetime(df.Time)  #dtype: datetime64[ns]. Matplotlib can't plot this datatype
 
-#print(df)
+# Select observations between two datetimes
+#df[(df['date'] > '2002-1-1 01:00:00') & (df['date'] <= '2002-1-1 04:00:00')]
+#df[(df.Time > "2017-10-10 00:00:00")]
+#df[(df['Time'] > pd.to_datetime(["2017-10-10 00:00:00"]))]
+mask = (df.Time > "2017-10-1") & (df.Time < "2017-10-3")
+df = df.loc[mask]
+df = df.sort_index().reset_index(drop=True)
+print(df)
 #--------------
 #Create new DF. https://thispointer.com/python-pandas-how-to-add-rows-in-a-dataframe-using-dataframe-append-loc-iloc/
 #df = df0.append({'Time' : '2017-10-11 0:00:00', 'TotalDuration': '10'}, ignore_index=True) 
@@ -45,34 +52,44 @@ df['EndTime_SameDate']=df.EndTime.map(lambda t: t.replace(year=2019, month=1, da
 df['Daydifference']=df.DateOnly - date(2017,8,2)
 #for index, row in df.iterrows():
 #	df['Time_SameDate2']=df.Time - pd.to_timedelta('1 days')
+#Make all the dates the same day of 8/2/2017
 df['Time_SameDate2']=df.Time - df.Daydifference
 df['EndTime_SameDate2']=df.EndTime - df.Daydifference
 #df.info()
 #df
 #print(df)
-#print(df)
-#Find indexes of dates after this time
+print(df)
+#Find indexes of dates after this time - when Ben fell asleep after 6:40pm and woke up after midnight
 compareStartDate = pd.to_datetime(["2017-08-02 18:40:00"])
 compareEndDate = pd.to_datetime(["2017-08-03 00:10:00"])
 midnight_indices = (df[((df["Time_SameDate2"] > compareStartDate[0]) & (df["EndTime_SameDate2"]>compareEndDate[0]))].index.values) #https://stackoverflow.com/questions/18327624/find-elements-index-in-pandas-series
 																#https://stackoverflow.com/questions/17241004/how-do-i-get-a-dataframe-index-series-column-as-an-array-or-list
 #midnight_indices = [0]
-#print(midnight_indices)
+print(midnight_indices)
 
 
 
 #Insert a new row after these indices. Make EndTime of new row the same as EndTime of indexA
-for indexA in midnight_indices:
+#for indexA in midnight_indices:
 	#https://stackoverflow.com/questions/15888648/is-it-possible-to-insert-a-row-at-an-arbitrary-position-in-a-dataframe-using-pan?rq=1
 	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
-	line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
-	df = df.append(line, ignore_index=False)
+	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
+	#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
+	#df = df.append(line, ignore_index=False)
+'''
+indexA = 230
+#line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]), 'EndTime_SameDate2': df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 'DateString': df.DateString[indexA+1], 'Resource': 'Sleep'}, index=[indexA+0.5])
+#df = df.append(line, ignore_index=False)
+print(df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1))
+print(df.DateString[indexA+1])
+#print([indexA+0.5])
 
 #Move EndTime_SameDate2 to midnight. 
-for indexA in midnight_indices:
-	df.iloc[indexA, df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
-	
-df = df.sort_index().reset_index(drop=True)
+#for indexA in midnight_indices:
+	#df.iloc[indexA, df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
+
+#df.iloc[indexA, df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])	
+#df = df.sort_index().reset_index(drop=True)
 
 #print(df)
 
@@ -93,18 +110,18 @@ df
 #print(df.Time_SameDate2)
 #print(df.EndTime_SameDate2)
 
-'''
+
 #print(pd.to_datetime(["2017-08-02 20:00:00"]))
-compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
+#compareDate = pd.to_datetime(["2017-08-02 20:00:00"])
 
 #https://stackoverflow.com/questions/34586069/valueerror-series-lengths-must-match-to-compare-when-matching-dates-in-pandas
-mask = (df['Time_SameDate2'] < compareDate[0])
+#mask = (df['Time_SameDate2'] < compareDate[0])
 #df  = df.loc[mask]
 #print(df)
 
 #print(df.mask(mask))
-print(df.where(mask,10))
-'''
+#print(df.where(mask,10))
+
 
 
 #if df['Time_SameDate2'] > compareDate[0]:
@@ -159,3 +176,4 @@ plt.subplots_adjust(bottom=0.13)
 plt.show()
 
 
+'''
