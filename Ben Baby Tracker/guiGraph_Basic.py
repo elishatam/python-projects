@@ -23,8 +23,9 @@ class Page(tk.Frame):
         canvas.get_tk_widget().grid(row=1,column=0)
         x = np.linspace(0, 10, 1000)
         self.ax.plot(x, np.sin(x));
-        #self.ax.plot(timeList, self.temp1CList, label='Temp1 (C)', color=self.color_temp)
-        self.fig.canvas.draw()
+
+        #self.fig.canvas.draw()
+        #plt.show()
 
     def onClose(self):
         print("closeGraph")

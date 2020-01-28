@@ -84,7 +84,7 @@ class Data:
 
 if __name__ == "__main__":
     testClass = Data(filename='1to6month.csv', 
-                    startDate="2017-10-1",
-                    endDate="2017-10-3")
+                    startDate="2017-09-16",
+                    endDate="2017-09-20")
     print(testClass.df)
     

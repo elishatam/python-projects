@@ -10,6 +10,8 @@ import tkinter as tk
 from tkinter import ttk
 import prepareData
 
+#scrollbar: https://stackoverflow.com/questions/42622146/scrollbar-on-matplotlib-showing-page
+
 class Page(tk.Frame):
     def __init__(self, parent, startDate, endDate):
 
@@ -19,7 +21,7 @@ class Page(tk.Frame):
         self.endDate = endDate
 
         self.fig = plt.figure(1)
-        self.fig.set_size_inches(10, 5)
+        self.fig.set_size_inches(w=10, h=8)
         self.ax = self.fig.add_subplot(111)    
 
         self.data = prepareData.Data(filename='1to6month.csv', 
@@ -29,10 +31,11 @@ class Page(tk.Frame):
         self.drawGraph(df = self.data.df)
 
         canvas = FigureCanvasTkAgg(self.fig, master=self)
-        canvas.get_tk_widget().grid(row=0,column=0)
+        canvas.get_tk_widget().grid(row=1,column=0)
         
+
         self.menuFrame = ttk.Labelframe(self, text=("Menu"))
-        self.menuFrame.grid(row=1, column=0, sticky="NSW",
+        self.menuFrame.grid(row=0, column=0, sticky="NSW",
             padx=5, pady=2)
         self.menuInfo()
 
@@ -145,6 +148,12 @@ class Page(tk.Frame):
         #https://stackoverflow.com/questions/4098131/how-to-update-a-plot-in-matplotlib
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()
+
+    def resize(self, event):
+        
+        print(root.winfo_width(), root.winfo_height())
+        self.fig.set_size_inches(w=root.winfo_width()/120, h=root.winfo_height()/120)
+        self.drawGraph(df=self.data.df)
   
 
 
@@ -159,6 +168,7 @@ if __name__ == "__main__":
     #y=700
     #root.geometry('%dx%d+%d+%d' % (w,h,x,y)) #Position window
     root.protocol("WM_DELETE_WINDOW",app.onClose)
+    #root.bind("<Configure>", app.resize)
 
     while True:
         root.update_idletasks()
