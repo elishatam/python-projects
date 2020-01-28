@@ -43,8 +43,9 @@ class Data:
         self.df.Time_SameDate2 = self.df.Time_SameDate2.astype(datetime)
         self.df.EndTime_SameDate2 = self.df.EndTime_SameDate2.astype(datetime)
 
-        self.df.info()
-        self.df
+        #self.df.info()
+        #self.df
+        print(len(self.df))
   
 
     def setDataFrameDateRange(self, startDate, endDate):
