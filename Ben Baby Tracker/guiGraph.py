@@ -31,11 +31,6 @@ class Page(tk.Frame):
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.get_tk_widget().grid(row=0,column=0)
         
-        #x = np.linspace(0, 10, 1000)
-        #self.ax.plot(x, np.sin(x));
-
-        #self.fig.canvas.draw() #Not necessary?
-
         self.menuFrame = ttk.Labelframe(self, text=("Menu"))
         self.menuFrame.grid(row=1, column=0, sticky="NSW",
             padx=5, pady=2)
@@ -79,16 +74,19 @@ class Page(tk.Frame):
                     endDate=self.endDateValue.get())
         
         df = self.data.df
-        plt.cla() #clear axis
-        #self.drawGraph(df = self.data.df)
+        #plt.cla() #clear axis
+        #self.setupAxis()
+        self.drawGraph(df = df)
         
-        self.ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
+        #lines = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
         #https://stackoverflow.com/questions/4098131/how-to-update-a-plot-in-matplotlib
-        self.fig.canvas.draw()
-        self.fig.canvas.flush_events()
+        #self.fig.canvas.draw()
+        #self.fig.canvas.flush_events()
+
 
     def drawGraph(self, df):
         plt.cla() #clear axis
+
         self.ax.xaxis.set_major_formatter(dtm.DateFormatter('%I:%M %p'))
         self.ax.xaxis.set_major_locator(dtm.HourLocator(byhour=range(0,24,4)))
         self.ax.xaxis.set_minor_locator(dtm.HourLocator(byhour=range(0,24,1)))
@@ -110,7 +108,10 @@ class Page(tk.Frame):
 
         #ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=15, color=df['Resource'].map(self.colors))
         
-        self.ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
+        #self.ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
+        #Had to change 'self.ax' to another name. It was redefining self.ax to be a list returned by the hlines command
+        #https://stackoverflow.com/questions/48376000/matplotlib-plotting-attributeerror-list-object-has-no-attribute-xaxis
+        lines = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
 
         
         #Make own legend: https://stackoverflow.com/questions/39500265/manually-add-legend-items-python-matplotlib
