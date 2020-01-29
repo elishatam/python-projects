@@ -8,6 +8,7 @@ from matplotlib.figure import Figure
 import numpy as np
 import tkinter as tk
 from tkinter import ttk
+import datetime as dt
 import prepareData
 
 #scrollbar: https://stackoverflow.com/questions/42622146/scrollbar-on-matplotlib-showing-page
@@ -45,6 +46,9 @@ class Page(tk.Frame):
         self.parent.destroy()
         #plt.close('all')
         plt.close()
+        
+        self.csv_filename = str(dt.datetime.now().strftime("%Y%m%d_%H-%M"))+"_data.csv"
+        #self.data.df.to_csv(self.csv_filename, index=False)
 
     def menuInfo(self):
         labelStartDate = tk.Label(self.menuFrame, text="Start Date")
@@ -160,7 +164,7 @@ class Page(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Graph")
-    app = Page(parent=root, startDate="2017-10-1", endDate="2017-10-3")  #This is to test the pageEngineer
+    app = Page(parent=root, startDate="2017-9-10", endDate="2017-9-20")  #This is to test the pageEngineer
     app.grid(row=0, column=0, sticky="W")
     #w=1000
     #h=650
