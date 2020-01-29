@@ -79,29 +79,22 @@ class Page(tk.Frame):
             )
         self.btnUpdateGraph.grid(row=1, column=2, sticky="W")
 
-        #First 2 weeks Button
-        self.btn2Weeks = tk.Button(self.menuFrame, text="2 weeks", 
-            command=lambda: self.updateGraph(startDate="2017-08-02",
-                                             endDate="2017-08-16"))
-        self.btn2Weeks.grid(row=0, column=3, sticky="WE")
-
-        #Month 1 Button
-        self.btnMonth1 = tk.Button(self.menuFrame, text="Month 1", 
-            command=lambda: self.updateGraph(startDate="2017-08-02",
-                                             endDate="2017-09-02"))
-        self.btnMonth1.grid(row=0, column=4, sticky="WE")
-
-        #Month 2 Button
-        self.btnMonth2 = tk.Button(self.menuFrame, text="Month 2", 
-            command=lambda: self.updateGraph(startDate="2017-09-02",
-                                             endDate="2017-10-02"))
-        self.btnMonth2.grid(row=0, column=5, sticky="WE")
-
-        #Month 3 Button
-        self.btnMonth3 = tk.Button(self.menuFrame, text="Month 3", 
-            command=lambda: self.updateGraph(startDate="2017-10-02",
-                                             endDate="2017-11-02"))
-        self.btnMonth3.grid(row=1, column=3, sticky="WE")
+        self.button=[]
+        btnNameList=["2 Weeks", "Month 1", "Month 2", "Month 3", "Month 4", "Month 5", "Month 6"]
+        startDateList=["2017-08-02","2017-08-02","2017-09-02","2017-10-02","2017-11-02",
+                       "2017-12-02", "2018-01-02"]
+        endDateList=["2017-08-16","2017-09-02","2017-10-02","2017-11-02", "2017-12-02",
+                     "2018-01-02", "2018-02-02"]
+        rowList=[0,0,0,0,1,1,1]
+        columnList=[3,4,5,6,3,4,5]
+        
+        for i in range(0,len(btnNameList)):
+            #print("i: " + str(i))
+            self.button.append(tk.Button(self.menuFrame,
+                                        text=btnNameList[i],
+                                        command=lambda i=i: self.updateGraph(startDate=startDateList[i],
+                                                                        endDate=endDateList[i])))
+            self.button[i].grid(row=rowList[i], column=columnList[i], sticky="WE")
 
     def updateGraph(self, startDate, endDate):
         print("in UpdateGraph")

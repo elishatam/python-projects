@@ -25,7 +25,10 @@ class Data:
         #Add a dummy row at the end. Needed for addRowAfterMidnightSleep()
         self.addDummyRowAtEnd()
 
-        self.addFirstSleepEntry()
+        if self.startDate == "2017-08-02":
+            print("don't add in firstSleepEntry")
+        else:
+            self.addFirstSleepEntry()
 
         #Add in necessary columns
         self.df['EndTime'] = self.df.Time + pd.to_timedelta(self.df.TotalDuration, unit='m')
