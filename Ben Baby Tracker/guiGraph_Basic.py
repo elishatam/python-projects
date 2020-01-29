@@ -18,9 +18,10 @@ class Page(tk.Frame):
         self.ax = self.fig.add_subplot(111)    
 
         
-        canvas = FigureCanvasTkAgg(self.fig, master=self)
+        canvas = FigureCanvasTkAgg(self.fig, master=self) #tk.DrawingArea
         #canvas.draw()
         canvas.get_tk_widget().grid(row=1,column=0)
+
         x = np.linspace(0, 10, 1000)
         self.ax.plot(x, np.sin(x));
 
