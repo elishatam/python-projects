@@ -21,13 +21,14 @@ class Page(tk.Frame):
         self.startDate = startDate
         self.endDate = endDate
 
-        self.fig = plt.figure(1)
-        self.fig.set_size_inches(w=10, h=5)
-        self.ax = self.fig.add_subplot(111)    
-
         self.data = prepareData.Data(filename='1to6month.csv', 
                     startDate=self.startDate,
                     endDate=self.endDate)
+
+        self.fig = plt.figure(1)
+        self.fig.set_size_inches(w=8, h=5)
+        self.ax = self.fig.add_subplot(111)    
+        
 
         self.drawGraph(df = self.data.df)
 
@@ -43,7 +44,7 @@ class Page(tk.Frame):
         self.menuFrame = ttk.Labelframe(self, text=("Menu"))
         self.menuFrame.grid(row=0, column=0, sticky="NSW",
             padx=5, pady=2)
-        self.menuInfo()
+        self.addInMenuFrame()
 
     def onClose(self):
         print("closeGraph")
@@ -55,7 +56,7 @@ class Page(tk.Frame):
         self.csv_filename = str(dt.datetime.now().strftime("%Y%m%d_%H-%M"))+"_data.csv"
         #self.data.df.to_csv(self.csv_filename, index=False)
 
-    def menuInfo(self):
+    def addInMenuFrame(self):
         labelStartDate = tk.Label(self.menuFrame, text="Start Date")
         labelStartDate.grid(row=0, column=0, sticky='W,E', padx=5, pady=2)
 
@@ -72,28 +73,51 @@ class Page(tk.Frame):
         endDateEntry.grid(row=1, column=1, sticky="W,E", padx=5, pady=2)
 
         #Button to update graph
-        self.btnUpdateGraph = tk.Button(self.menuFrame, text="Update Graph", 
-            #command=lambda: self.setHorLinePos(value=self.horLinePos.get())
-            command=self.updateGraph
+        self.btnUpdateGraph = tk.Button(self.menuFrame, text="Update Graph",
+            command=lambda: self.updateGraph(startDate=self.startDateValue.get(),
+                                            endDate=self.endDateValue.get())
             )
         self.btnUpdateGraph.grid(row=1, column=2, sticky="W")
 
-    def updateGraph(self):
+        #First 2 weeks Button
+        self.btn2Weeks = tk.Button(self.menuFrame, text="2 weeks", 
+            command=lambda: self.updateGraph(startDate="2017-08-02",
+                                             endDate="2017-08-16"))
+        self.btn2Weeks.grid(row=0, column=3, sticky="WE")
+
+        #Month 1 Button
+        self.btnMonth1 = tk.Button(self.menuFrame, text="Month 1", 
+            command=lambda: self.updateGraph(startDate="2017-08-02",
+                                             endDate="2017-09-02"))
+        self.btnMonth1.grid(row=0, column=4, sticky="WE")
+
+        #Month 2 Button
+        self.btnMonth2 = tk.Button(self.menuFrame, text="Month 2", 
+            command=lambda: self.updateGraph(startDate="2017-09-02",
+                                             endDate="2017-10-02"))
+        self.btnMonth2.grid(row=0, column=5, sticky="WE")
+
+        #Month 3 Button
+        self.btnMonth3 = tk.Button(self.menuFrame, text="Month 3", 
+            command=lambda: self.updateGraph(startDate="2017-10-02",
+                                             endDate="2017-11-02"))
+        self.btnMonth3.grid(row=1, column=3, sticky="WE")
+
+    def updateGraph(self, startDate, endDate):
         print("in UpdateGraph")
         
         self.data = prepareData.Data(filename='1to6month.csv', 
-                    startDate=self.startDateValue.get(),
-                    endDate=self.endDateValue.get())
+                    startDate=startDate,
+                    endDate=endDate)
         
         df = self.data.df
         #plt.cla() #clear axis
         #self.setupAxis()
         self.drawGraph(df = df)
         
-        #lines = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
-        #https://stackoverflow.com/questions/4098131/how-to-update-a-plot-in-matplotlib
-        #self.fig.canvas.draw()
-        #self.fig.canvas.flush_events()
+        #Update values in entry
+        self.startDateValue.set(startDate)
+        self.endDateValue.set(endDate)
 
 
     def drawGraph(self, df):
@@ -123,7 +147,11 @@ class Page(tk.Frame):
         #self.ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
         #Had to change 'self.ax' to another name. It was redefining self.ax to be a list returned by the hlines command
         #https://stackoverflow.com/questions/48376000/matplotlib-plotting-attributeerror-list-object-has-no-attribute-xaxis
-        lines = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
+        lines = plt.hlines(y=df.DateString, 
+                           xmin=dtm.date2num(df.Time_SameDate2), 
+                           xmax=dtm.date2num(df.EndTime_SameDate2), 
+                           linewidth=8, 
+                           color=df['Resource'].map(self.colors))
 
         
         #Make own legend: https://stackoverflow.com/questions/39500265/manually-add-legend-items-python-matplotlib
@@ -169,7 +197,7 @@ class Page(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Graph")
-    app = Page(parent=root, startDate="2017-9-10", endDate="2017-9-20")  #This is to test the pageEngineer
+    app = Page(parent=root, startDate="2017-9-10", endDate="2017-9-25")  #This is to test the pageEngineer
     app.grid(row=0, column=0, sticky="W")
     #w=1000
     #h=650

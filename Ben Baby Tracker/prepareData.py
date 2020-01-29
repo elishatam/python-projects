@@ -1,6 +1,6 @@
 import pandas as pd
 import time
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 class Data:
     def __init__(self, filename, startDate, endDate):
@@ -14,8 +14,22 @@ class Data:
         self.df = pd.read_csv(self.filename)
         self.df.Time = pd.to_datetime(self.df.Time) #dtype: datetime64[ns].
 
+               
         self.setDataFrameDateRange(self.startDate, self.endDate)
 
+        
+        #print(self.df)
+        #Sort dataframe by Time column. Reset the index
+        self.df = self.df.sort_values(by='Time').reset_index(drop=True)
+        #Add a dummy row at the end. Needed for addRowAfterMidnightSleep()
+        dummyLastDateTimeEntry = pd.to_datetime(str(self.endDate) + ' 23:58:00') - timedelta(days=1)
+        df2 = pd.DataFrame({"Time":[dummyLastDateTimeEntry], 
+            "TotalDuration":[1],
+            "Resource":["Sleep"]})
+        self.df = self.df.append(df2, ignore_index=True)
+        
+        
+        
         #Add in necessary columns
         self.df['EndTime'] = self.df.Time + pd.to_timedelta(self.df.TotalDuration, unit='m')
         self.df['DateOnly'] = self.df['Time'].dt.date   #object
@@ -46,12 +60,15 @@ class Data:
         #self.df.info()
         #self.df
         print(len(self.df))
+        
   
 
     def setDataFrameDateRange(self, startDate, endDate):
+        print(self.df)
         mask = (self.df.Time > startDate) & (self.df.Time < endDate)
         self.df = self.df.loc[mask]
         self.df = self.df.sort_index().reset_index(drop=True)
+        print(self.df)
 
     def addRowAfterMidnightSleep(self):
         #Find indexes of dates after this time - 
@@ -84,7 +101,7 @@ class Data:
 
 if __name__ == "__main__":
     testClass = Data(filename='1to6month.csv', 
-                    startDate="2017-09-16",
-                    endDate="2017-09-20")
-    print(testClass.df)
+                    startDate="2017-08-02",
+                    endDate="2017-08-06")
+    #print(testClass.df)
     
