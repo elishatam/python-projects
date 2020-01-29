@@ -27,10 +27,7 @@ class Example(tk.Frame):
         self.vsb.grid(row=0, column=1, sticky="NSE")
         #self.canvas.pack(side="left", fill="both", expand=True)
         self.canvas.grid(row=0, column=0, sticky="NSWE")
-        #self.canvas.grid_columnconfigure(1, weight=1)
-        #self.canvas.grid_rowconfigure(0, weight=1)
-        #self.vsb.grid_columnconfigure(1, weight=1)
-        #self.vsb.grid_rowconfigure(0, weight=1)
+
         #3) Embed Frame (F) into C
         self.canvas.create_window((4,4), window=self.frame, anchor="nw", 
                                   tags="self.frame")

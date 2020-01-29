@@ -25,6 +25,12 @@ class Page(tk.Frame):
         x = np.linspace(0, 10, 1000)
         self.ax.plot(x, np.sin(x));
 
+        toolbarFrame = tk.Frame(master=root)
+        toolbarFrame.grid(row=2,column=0, sticky="W")
+        #To use this toolbar with grid, need to put it in its own frame
+        toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
+        #toolbar.update()
+
         #self.fig.canvas.draw()
         #plt.show()
 

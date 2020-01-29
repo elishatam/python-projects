@@ -22,7 +22,7 @@ class Page(tk.Frame):
         self.endDate = endDate
 
         self.fig = plt.figure(1)
-        self.fig.set_size_inches(w=10, h=8)
+        self.fig.set_size_inches(w=10, h=5)
         self.ax = self.fig.add_subplot(111)    
 
         self.data = prepareData.Data(filename='1to6month.csv', 
@@ -33,6 +33,11 @@ class Page(tk.Frame):
 
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.get_tk_widget().grid(row=1,column=0)
+
+        toolbarFrame = tk.Frame(master=root)
+        toolbarFrame.grid(row=2,column=0, sticky="W")
+        #To use this toolbar with grid, need to put it in its own frame
+        toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
         
 
         self.menuFrame = ttk.Labelframe(self, text=("Menu"))
