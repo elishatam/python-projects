@@ -43,9 +43,12 @@ class Page(tk.Frame):
         
 
         self.menuWidget = widgetMenu.menuWidget(parent=self, 
-                        initStartDate=self.startDate, initEndDate=self.endDate)
+                        initStartDate=self.startDate, initEndDate=self.endDate,
+                        originalDataFirstDate=self.data.originalFirstDate,
+                        originalDataLastDate=self.data.originalLastDate)
         self.menuWidget.grid(row=0, column=0, 
             sticky="NESW", padx=5, pady=2)
+
 
     def onClose(self):
         print("closeGraph")

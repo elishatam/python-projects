@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+import pandas as pd
 
 class menuWidget(tk.Frame):
-    def __init__(self, parent, initStartDate, initEndDate):
+    def __init__(self, parent, initStartDate, initEndDate, originalDataFirstDate,
+        originalDataLastDate):
         tk.Frame.__init__(self, parent)
         
         self.needToUpdateGraphFlag = 0
@@ -33,18 +35,36 @@ class menuWidget(tk.Frame):
             )
         self.btnUpdateGraph.grid(row=1, column=2, sticky="W")
 
+        btnFrame = ttk.Labelframe(self, text=("Set Time Periods"))
+        btnFrame.grid(row=0, column=1, sticky="NSW",
+            padx=5, pady=2)
         self.button=[]
-        btnNameList=["2 Weeks", "Month 1", "Month 2", "Month 3", "Month 4", "Month 5", "Month 6"]
-        startDateList=["2017-08-02","2017-08-02","2017-09-02","2017-10-02","2017-11-02",
-                       "2017-12-02", "2018-01-02"]
-        endDateList=["2017-08-16","2017-09-02","2017-10-02","2017-11-02", "2017-12-02",
-                     "2018-01-02", "2018-02-02"]
-        rowList=[0,0,0,0,1,1,1]
-        columnList=[3,4,5,6,3,4,5]
+        btnNameList=["2 Weeks", "Month 1", "Month 2", "Month 3", "Month 4", 
+                    "Month 5", "Month 6", "Full"]
+        startDateList=[self.offsetDateByMonth_Str(originalDataFirstDate,0),
+                        self.offsetDateByMonth_Str(originalDataFirstDate,0),
+                        self.offsetDateByMonth_Str(originalDataFirstDate,1),
+                        self.offsetDateByMonth_Str(originalDataFirstDate,2),
+                        self.offsetDateByMonth_Str(originalDataFirstDate,3),
+                        self.offsetDateByMonth_Str(originalDataFirstDate,4),
+                        self.offsetDateByMonth_Str(originalDataFirstDate,5),
+                        self.offsetDateByMonth_Str(originalDataFirstDate,0),
+                        ]
+        endDateList=[str(originalDataFirstDate+pd.Timedelta(days=14)),
+                    self.offsetDateByMonth_Str(originalDataFirstDate,1),
+                    self.offsetDateByMonth_Str(originalDataFirstDate,2),
+                    self.offsetDateByMonth_Str(originalDataFirstDate,3), 
+                    self.offsetDateByMonth_Str(originalDataFirstDate,4),
+                    self.offsetDateByMonth_Str(originalDataFirstDate,5), 
+                    self.offsetDateByMonth_Str(originalDataFirstDate,6),
+                    str(originalDataLastDate)
+                    ]
+        rowList=[0,0,0,0,1,1,1,1]
+        columnList=[3,4,5,6,3,4,5,6]
         
         for i in range(0,len(btnNameList)):
             #print("i: " + str(i))
-            self.button.append(tk.Button(menuFrame,
+            self.button.append(tk.Button(btnFrame,
                     text=btnNameList[i],
                     command=lambda i=i: self.needToUpdateGraph(startDate=startDateList[i],
                     endDate=endDateList[i])))
@@ -58,3 +78,7 @@ class menuWidget(tk.Frame):
         #update entry dates
         self.startDateValue.set(startDate)
         self.endDateValue.set(endDate)
+
+    def offsetDateByMonth_Str(self, date_dateTime, numberOfMonths):
+        newDate=str((date_dateTime + pd.DateOffset(months=numberOfMonths)).date())
+        return newDate

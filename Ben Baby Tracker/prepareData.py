@@ -14,6 +14,12 @@ class Data:
         self.df = pd.read_csv(self.filename)
         self.df.Time = pd.to_datetime(self.df.Time) #dtype: datetime64[ns].
 
+        originalDF=self.df.sort_values(by='Time').reset_index(drop=True)
+        originalFirstTimeValue = originalDF.iloc[0]['Time'] #Access first row as a series with iloc. dateTime value
+        self.originalFirstDate = originalFirstTimeValue.date()
+
+        originalLastTimeValue = originalDF.iloc[-1]['Time']
+        self.originalLastDate = originalLastTimeValue.date()
                
         self.setDataFrameDateRange(self.startDate, self.endDate)
 
@@ -59,16 +65,16 @@ class Data:
 
         #self.df.info()
         #self.df
-        print(len(self.df))
+        #print(len(self.df))
         
   
 
     def setDataFrameDateRange(self, startDate, endDate):
-        print(self.df)
+        #print(self.df)
         mask = (self.df.Time > startDate) & (self.df.Time < endDate)
         self.df = self.df.loc[mask]
         self.df = self.df.sort_index().reset_index(drop=True)
-        print(self.df)
+        #print(self.df)
 
     def addRowAfterMidnightSleep(self):
         #Find indexes of dates after this time - 
@@ -80,7 +86,7 @@ class Data:
         midnight_indices = (self.df[((self.df["Time_SameDate2"] > compareStartDate[0]) 
                             & (self.df["EndTime_SameDate2"]>compareEndDate[0]))].index.values) 
                                                                         
-        print(midnight_indices)
+        #print(midnight_indices)
 
         #Insert a new row after these indices. Make EndTime of new row the same as EndTime of indexA
         for indexA in midnight_indices:
@@ -112,9 +118,9 @@ class Data:
         #Find first nursing Time / index 0. Add in row at top. 
         #Time = startTime, TotalDuration = firstNursingTime - midnight
         firstTimeValue = self.df.iloc[0]['Time'] #Access first row as a series with iloc. dateTime value
-        print(firstTimeValue)
+        #print(firstTimeValue)
         dummyFirstDateTimeEntry = pd.to_datetime(str(self.startDate) + ' 00:00:00')
-        print(dummyFirstDateTimeEntry)
+        #print(dummyFirstDateTimeEntry)
         dummyTotalDuration = firstTimeValue - dummyFirstDateTimeEntry
         dummyTotalDuration_min = dummyTotalDuration.seconds/60
         
