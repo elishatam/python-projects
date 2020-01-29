@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import ttk
 import datetime as dt
 import prepareData
+import widgetMenu
 
 #scrollbar: https://stackoverflow.com/questions/42622146/scrollbar-on-matplotlib-showing-page
 
@@ -41,10 +42,10 @@ class Page(tk.Frame):
         toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
         
 
-        self.menuFrame = ttk.Labelframe(self, text=("Menu"))
-        self.menuFrame.grid(row=0, column=0, sticky="NSW",
-            padx=5, pady=2)
-        self.addInMenuFrame()
+        self.menuWidget = widgetMenu.menuWidget(parent=self, 
+                        initStartDate=self.startDate, initEndDate=self.endDate)
+        self.menuWidget.grid(row=0, column=0, 
+            sticky="NESW", padx=5, pady=2)
 
     def onClose(self):
         print("closeGraph")
@@ -56,45 +57,6 @@ class Page(tk.Frame):
         self.csv_filename = str(dt.datetime.now().strftime("%Y%m%d_%H-%M"))+"_data.csv"
         #self.data.df.to_csv(self.csv_filename, index=False)
 
-    def addInMenuFrame(self):
-        labelStartDate = tk.Label(self.menuFrame, text="Start Date")
-        labelStartDate.grid(row=0, column=0, sticky='W,E', padx=5, pady=2)
-
-        self.startDateValue = tk.StringVar(value=self.startDate)
-        startDateEntry = ttk.Entry(self.menuFrame, textvariable=self.startDateValue, 
-            width=20)
-        startDateEntry.grid(row=0, column=1, sticky="W,E", padx=5, pady=2)
-
-        labelEndDate = tk.Label(self.menuFrame, text="End Date")
-        labelEndDate.grid(row=1, column=0, sticky='W,E', padx=5, pady=2)
-        self.endDateValue = tk.StringVar(value=self.endDate)
-        endDateEntry = ttk.Entry(self.menuFrame, textvariable=self.endDateValue, 
-            width=20)
-        endDateEntry.grid(row=1, column=1, sticky="W,E", padx=5, pady=2)
-
-        #Button to update graph
-        self.btnUpdateGraph = tk.Button(self.menuFrame, text="Update Graph",
-            command=lambda: self.updateGraph(startDate=self.startDateValue.get(),
-                                            endDate=self.endDateValue.get())
-            )
-        self.btnUpdateGraph.grid(row=1, column=2, sticky="W")
-
-        self.button=[]
-        btnNameList=["2 Weeks", "Month 1", "Month 2", "Month 3", "Month 4", "Month 5", "Month 6"]
-        startDateList=["2017-08-02","2017-08-02","2017-09-02","2017-10-02","2017-11-02",
-                       "2017-12-02", "2018-01-02"]
-        endDateList=["2017-08-16","2017-09-02","2017-10-02","2017-11-02", "2017-12-02",
-                     "2018-01-02", "2018-02-02"]
-        rowList=[0,0,0,0,1,1,1]
-        columnList=[3,4,5,6,3,4,5]
-        
-        for i in range(0,len(btnNameList)):
-            #print("i: " + str(i))
-            self.button.append(tk.Button(self.menuFrame,
-                                        text=btnNameList[i],
-                                        command=lambda i=i: self.updateGraph(startDate=startDateList[i],
-                                                                        endDate=endDateList[i])))
-            self.button[i].grid(row=rowList[i], column=columnList[i], sticky="WE")
 
     def updateGraph(self, startDate, endDate):
         print("in UpdateGraph")
@@ -108,9 +70,6 @@ class Page(tk.Frame):
         #self.setupAxis()
         self.drawGraph(df = df)
         
-        #Update values in entry
-        self.startDateValue.set(startDate)
-        self.endDateValue.set(endDate)
 
 
     def drawGraph(self, df):
@@ -203,3 +162,8 @@ if __name__ == "__main__":
     while True:
         root.update_idletasks()
         root.update()  #This blocks
+
+        if app.menuWidget.needToUpdateGraphFlag == 1:
+            app.updateGraph(startDate=app.menuWidget.newGraphStartDate,
+                            endDate=app.menuWidget.newGraphEndDate)
+            app.menuWidget.needToUpdateGraphFlag = 0 #reset flag
