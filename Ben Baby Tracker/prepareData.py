@@ -21,15 +21,12 @@ class Data:
         #print(self.df)
         #Sort dataframe by Time column. Reset the index
         self.df = self.df.sort_values(by='Time').reset_index(drop=True)
+
         #Add a dummy row at the end. Needed for addRowAfterMidnightSleep()
-        dummyLastDateTimeEntry = pd.to_datetime(str(self.endDate) + ' 23:58:00') - timedelta(days=1)
-        df2 = pd.DataFrame({"Time":[dummyLastDateTimeEntry], 
-            "TotalDuration":[1],
-            "Resource":["Sleep"]})
-        self.df = self.df.append(df2, ignore_index=True)
-        
-        
-        
+        self.addDummyRowAtEnd()
+
+        self.addFirstSleepEntry()
+
         #Add in necessary columns
         self.df['EndTime'] = self.df.Time + pd.to_timedelta(self.df.TotalDuration, unit='m')
         self.df['DateOnly'] = self.df['Time'].dt.date   #object
@@ -97,11 +94,42 @@ class Data:
 
         self.df = self.df.sort_index().reset_index(drop=True)
 
+    def addDummyRowAtEnd(self):
+        #Add a dummy row at the end. Needed for addRowAfterMidnightSleep()
+        dummyLastDateTimeEntry = pd.to_datetime(str(self.endDate) + ' 23:58:00') - timedelta(days=1)
+        dfLastDateTime = pd.DataFrame({
+            "Time":[dummyLastDateTimeEntry], 
+            "TotalDuration":[1],
+            "Resource":["Sleep"]
+            })
+        self.df = self.df.append(dfLastDateTime, ignore_index=True)
+        #print(self.df)
+
+    def addFirstSleepEntry(self):
+        #Find first nursing Time / index 0. Add in row at top. 
+        #Time = startTime, TotalDuration = firstNursingTime - midnight
+        firstTimeValue = self.df.iloc[0]['Time'] #Access first row as a series with iloc. dateTime value
+        print(firstTimeValue)
+        dummyFirstDateTimeEntry = pd.to_datetime(str(self.startDate) + ' 00:00:00')
+        print(dummyFirstDateTimeEntry)
+        dummyTotalDuration = firstTimeValue - dummyFirstDateTimeEntry
+        dummyTotalDuration_min = dummyTotalDuration.seconds/60
+        
+        dfFirstDateTime = pd.DataFrame({
+            "Time":[dummyFirstDateTimeEntry], 
+            "TotalDuration":[dummyTotalDuration_min],
+            "Resource":["Sleep"]
+            })
+        self.df = self.df.append(dfFirstDateTime, ignore_index=True)
+        
+        #Sort dataframe by Time column. Reset the index
+        self.df = self.df.sort_values(by='Time').reset_index(drop=True)
+        #print(self.df)
 
 
 if __name__ == "__main__":
     testClass = Data(filename='1to6month.csv', 
-                    startDate="2017-08-02",
-                    endDate="2017-08-06")
+                    startDate="2017-09-02",
+                    endDate="2017-09-06")
     #print(testClass.df)
     
