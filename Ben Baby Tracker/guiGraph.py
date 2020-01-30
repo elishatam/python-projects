@@ -29,7 +29,13 @@ class Page(tk.Frame):
         self.fig = plt.figure(1)
         self.fig.set_size_inches(w=8, h=5)
         self.ax = self.fig.add_subplot(111)    
-        
+
+        self.menuWidget = widgetMenu.menuWidget(parent=self, 
+                        initStartDate=self.startDate, initEndDate=self.endDate,
+                        originalDataFirstDate=self.data.originalFirstDate,
+                        originalDataLastDate=self.data.originalLastDate)
+        self.menuWidget.grid(row=0, column=0, 
+            sticky="NESW", padx=5, pady=2)
 
         self.drawGraph(df = self.data.df)
 
@@ -42,12 +48,7 @@ class Page(tk.Frame):
         toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
         
 
-        self.menuWidget = widgetMenu.menuWidget(parent=self, 
-                        initStartDate=self.startDate, initEndDate=self.endDate,
-                        originalDataFirstDate=self.data.originalFirstDate,
-                        originalDataLastDate=self.data.originalLastDate)
-        self.menuWidget.grid(row=0, column=0, 
-            sticky="NESW", padx=5, pady=2)
+        
 
 
     def onClose(self):
@@ -105,7 +106,7 @@ class Page(tk.Frame):
         lines = plt.hlines(y=df.DateString, 
                            xmin=dtm.date2num(df.Time_SameDate2), 
                            xmax=dtm.date2num(df.EndTime_SameDate2), 
-                           linewidth=8, 
+                           linewidth=self.menuWidget.hlineWidth, 
                            color=df['Resource'].map(self.colors))
 
         

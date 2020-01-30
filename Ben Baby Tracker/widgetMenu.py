@@ -7,7 +7,9 @@ class menuWidget(tk.Frame):
         originalDataLastDate):
         tk.Frame.__init__(self, parent)
         
+        #initialize values that are used across modules
         self.needToUpdateGraphFlag = 0
+        self.hlineWidth=8
 
         menuFrame = ttk.Labelframe(self, text=("Menu"))
         menuFrame.grid(row=0, column=0, sticky="NSW",
@@ -78,6 +80,15 @@ class menuWidget(tk.Frame):
         #update entry dates
         self.startDateValue.set(startDate)
         self.endDateValue.set(endDate)
+
+        #update hline width if > 60 days
+        dayDifference = pd.to_datetime(endDate) - pd.to_datetime(startDate)
+        if dayDifference.days > 60:
+            print("update width to 2")
+            self.hlineWidth = 1
+        else:
+            print("update width to 8")
+            self.hlineWidth = 8
 
     def offsetDateByMonth_Str(self, date_dateTime, numberOfMonths):
         newDate=str((date_dateTime + pd.DateOffset(months=numberOfMonths)).date())
