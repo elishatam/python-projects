@@ -1,10 +1,12 @@
 import matplotlib
-from matplotlib import pyplot as plt
+
 import matplotlib.dates as dtm
 import matplotlib.patches as mpatches
 matplotlib.use("TkAgg")
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+#from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+from matplotlib import pyplot as plt
 import numpy as np
 import tkinter as tk
 from tkinter import ttk
@@ -45,7 +47,7 @@ class Page(tk.Frame):
         toolbarFrame = tk.Frame(master=root)
         toolbarFrame.grid(row=2,column=0, sticky="W")
         #To use this toolbar with grid, need to put it in its own frame
-        toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
+        #toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
         
 
         
