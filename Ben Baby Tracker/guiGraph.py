@@ -58,7 +58,7 @@ class Page(tk.Frame):
         #plt.close('all')
         plt.close()
         
-        self.csv_filename = str(dt.datetime.now().strftime("%Y%m%d_%H-%M"))+"_data.csv"
+        #self.csv_filename = str(dt.datetime.now().strftime("%Y%m%d_%H-%M"))+"_data.csv"
         #self.data.df.to_csv(self.csv_filename, index=False)
 
 
