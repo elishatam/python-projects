@@ -58,9 +58,9 @@ class Page(tk.Frame):
             self.drawGraph()
 
         #BBT spike day
-        print("BBT Spike Day: "+str(self.BBTSpikeDay))
+        #print("BBT Spike Day: "+str(self.BBTSpikeDay))
         #Ov day
-        print("The current Ov Day (1-2day before BBT):"+str(self.BBTSpikeDay-2))
+        #print("The current Ov Day (1-2day before BBT):"+str(self.BBTSpikeDay-2))
         #Luteal Phase length
         #Next Ovulation day if 1st day of period is
 
@@ -70,13 +70,21 @@ class Page(tk.Frame):
         firstDateValue = self.df.iloc[0]['DateOnly'] #get first entry in Date
         self.df['DayCount'] = (self.df.DateOnly - firstDateValue).dt.days
 
-        if self.foundCoverlineTempValue():
-            self.drawCoverlineFlag = 1
+        #Look for Coverline if dataframe length > 9
+        #print("length of df Temp: " + str(len(self.df['Temp (F)'])))
+        if len(self.df['Temp (F)']) > 9:
+            if self.foundCoverlineTempValue():
+                self.drawCoverlineFlag = 1
+            else:
+                self.drawCoverlineFlag = 0
+            self.setColorByTemp(tempValue=self.coverlineValue)
         else:
             self.drawCoverlineFlag = 0
-        self.setColorByTemp(tempValue=self.coverlineValue)
+            self.setColorByTemp(tempValue=98)
 
-        #self.df.info()
+            
+
+        self.df.info()
         print(self.df)
 
     def drawGraph(self):
@@ -101,6 +109,7 @@ class Page(tk.Frame):
             self.df.loc[indexA, 'Color'] = "red"
 
         #print(higherTemp_indices) 
+        print(self.df)
 
     def foundCoverlineTempValue(self):
         #the first 6 low consecutive temps must be lower than the next 3
