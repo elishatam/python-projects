@@ -33,10 +33,12 @@ class Page(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         drawGraphFlag = 1
+        self.transitionTempValue = 97.7
 
         
         if drawGraphFlag == 1:
             #Prepare Tk GUI for graph
+            #https://stackoverflow.com/questions/37970424/what-is-the-difference-between-drawing-plots-using-plot-axes-or-figure-in-matpl
             self.fig = plt.figure(1)
             self.ax = self.fig.add_subplot(111)
             self.canvas = FigureCanvasTkAgg(self.fig, master=self)
@@ -70,6 +72,8 @@ class Page(tk.Frame):
         firstDateValue = self.df.iloc[0]['DateOnly'] #get first entry in Date
         self.df['DayCount'] = (self.df.DateOnly - firstDateValue).dt.days
 
+        '''
+        #This currently doesn't work with my data
         #Look for Coverline if dataframe length > 9
         #print("length of df Temp: " + str(len(self.df['Temp (F)'])))
         if len(self.df['Temp (F)']) > 9:
@@ -81,8 +85,9 @@ class Page(tk.Frame):
         else:
             self.drawCoverlineFlag = 0
             self.setColorByTemp(tempValue=98)
-
-            
+        '''
+        self.drawCoverlineFlag = 0
+        self.setColorByTemp(tempValue=self.transitionTempValue) 
 
         self.df.info()
         print(self.df)
@@ -90,7 +95,12 @@ class Page(tk.Frame):
     def drawGraph(self):
         x = self.df['DayCount']
         y = self.df['Temp (F)']
-        self.ax.scatter(x,y, c=self.df['Color'])
+        self.ax.plot(x,y, '-o')  #line graph
+        #self.ax.scatter(x,y, c=self.df['Color'])
+        #self.ax.subplot(x,y, c=self.df['Color']) #Doesn't work
+        
+        #self.ax.plot(x,y, c=self.df['Color'])  #Doesn't work
+        #self.fig.canvas.draw()
         self.ax.set_xlabel('Elapsed Time (s)')
         self.ax.set_ylabel('Temp (F)')
 
