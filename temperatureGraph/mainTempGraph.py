@@ -95,12 +95,8 @@ class Page(tk.Frame):
     def drawGraph(self):
         x = self.df['DayCount']
         y = self.df['Temp (F)']
-        self.ax.plot(x,y, '-o')  #line graph
+        self.ax.plot(x,y, '-o')  #line graph, aka connected scatter plot
         #self.ax.scatter(x,y, c=self.df['Color'])
-        #self.ax.subplot(x,y, c=self.df['Color']) #Doesn't work
-        
-        #self.ax.plot(x,y, c=self.df['Color'])  #Doesn't work
-        #self.fig.canvas.draw()
         self.ax.set_xlabel('Elapsed Time (s)')
         self.ax.set_ylabel('Temp (F)')
 
