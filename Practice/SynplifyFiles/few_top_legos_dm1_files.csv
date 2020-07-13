@@ -1,0 +1,10 @@
+Original
+add_file -xilinx "ipcore_dir/chipscope_64vio.ngc"
+add_file -verilog "vlog/dac_mem_sort_dm1.v"
+add_file -verilog "vlog/dac_memclr_dm1.v"
+add_file -verilog "vlog/dac_loader_dm1.v"
+add_file -verilog "vlog/dac_codeset_dm1.v"
+add_file -verilog "vlog/dac_cntrl_legos.v"
+add_file -verilog "vlog/dp_mem_52x12.v"
+add_file -verilog "vlog/dac_main_dm1.v"
+add_file -verilog "vlog/shiftgbit8x28.v"
