@@ -1,8 +1,8 @@
 For Ben Baby Tracker
-To run, need python 3.4
+To run, need python 3.8
 
 Open up command prompt, navigate to git\python-projects\Ben Baby Tracker
-type: workon py34generic
+type: workon py38generic
 python guiGraph.py
 
 
