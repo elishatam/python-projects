@@ -58,10 +58,11 @@ class Data:
 
         #Need to change dtype to datetime.date instances
         #https://matplotlib.org/gallery/recipes/common_date_problems.html
-        self.df.Time_SameDate = self.df.Time_SameDate.astype(datetime)
-        self.df.EndTime_SameDate = self.df.EndTime_SameDate.astype(datetime)
-        self.df.Time_SameDate2 = self.df.Time_SameDate2.astype(datetime)
-        self.df.EndTime_SameDate2 = self.df.EndTime_SameDate2.astype(datetime)
+        #Not needed of python 3.8. Needed for python 3.4
+        #self.df.Time_SameDate = self.df.Time_SameDate.astype(datetime)
+        #self.df.EndTime_SameDate = self.df.EndTime_SameDate.astype(datetime)
+        #self.df.Time_SameDate2 = self.df.Time_SameDate2.astype(datetime)
+        #self.df.EndTime_SameDate2 = self.df.EndTime_SameDate2.astype(datetime)
 
         #self.df.info()
         #self.df
