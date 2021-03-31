@@ -64,11 +64,29 @@ class Data:
         #self.df.Time_SameDate2 = self.df.Time_SameDate2.astype(datetime)
         #self.df.EndTime_SameDate2 = self.df.EndTime_SameDate2.astype(datetime)
 
-        #self.df.info()
+        self.df.info()
         #self.df
         #print(len(self.df))
-        
   
+        #self.dfDay = self.df.TotalDuration == 15
+        #self.dfDay['DateOnly'] = self.df.DateOnly == pd.to_datetime("2017-09-02")
+        #print(self.dfDay)
+
+        #self.dfDay = self.df['TotalDuration'].contains(15)
+        #days = self.df.groupby('DateOnly')
+        #print(days.groups)
+        #print(self.dfDay['Resource'].value_counts())
+        #print(self.df['Resource'].value_counts().Nursing + self.df['Resource'].value_counts().BottlePumped + self.df['Resource'].value_counts().BottleFormula)
+        
+        #https://www.geeksforgeeks.org/selecting-rows-in-pandas-dataframe-based-on-conditions/
+        self.dfDay = self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")]
+        print(self.dfDay)
+        print(self.dfDay['Resource'].value_counts())
+        print(self.dfDay['Resource'].value_counts().Nursing + self.dfDay['Resource'].value_counts().BottlePumped + self.dfDay['Resource'].value_counts().BottleFormula)
+        #print(self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")])
+        #print(self.df[self.df["TotalDuration"] == 15])
+        
+
 
     def setDataFrameDateRange(self, startDate, endDate):
         #print(self.df)
@@ -86,7 +104,7 @@ class Data:
         #https://stackoverflow.com/questions/17241004/how-do-i-get-a-dataframe-index-series-column-as-an-array-or-list
         midnight_indices = (self.df[((self.df["Time_SameDate2"] > compareStartDate[0]) 
                             & (self.df["EndTime_SameDate2"]>compareEndDate[0]))].index.values) 
-                                                                        
+        #print("midnight indices")                                                                
         #print(midnight_indices)
 
         #Insert a new row after these indices. Make EndTime of new row the same as EndTime of indexA
@@ -142,4 +160,7 @@ if __name__ == "__main__":
                     startDate="2017-09-02",
                     endDate="2017-09-06")
     #print(testClass.df)
+
+    #Export to CSV
+    testClass.df.to_csv (r'export_dataframe.csv', index=True, header=True)
     
