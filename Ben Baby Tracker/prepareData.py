@@ -14,6 +14,8 @@ class Data:
         self.df = pd.read_csv(self.filename)
         self.df.Time = pd.to_datetime(self.df.Time) #dtype: datetime64[ns].
 
+        
+
         originalDF=self.df.sort_values(by='Time').reset_index(drop=True)
         originalFirstTimeValue = originalDF.iloc[0]['Time'] #Access first row as a series with iloc. dateTime value
         self.originalFirstDate = originalFirstTimeValue.date()
@@ -28,6 +30,9 @@ class Data:
         #Sort dataframe by Time column. Reset the index
         self.df = self.df.sort_values(by='Time').reset_index(drop=True)
 
+        #Create new dataframe for counting
+        self.setDFForCounting(self.df)
+
         #Add a dummy row at the end. Needed for addRowAfterMidnightSleep()
         self.addDummyRowAtEnd()
 
@@ -39,7 +44,6 @@ class Data:
         #Add in necessary columns
         self.df['EndTime'] = self.df.Time + pd.to_timedelta(self.df.TotalDuration, unit='m')
         self.df['DateOnly'] = self.df['Time'].dt.date   #object
-
         #Make Date a string. Needed for hline y axis
         #https://stackoverflow.com/questions/33957720/how-to-convert-column-with-dtype-as-object-to-string-in-pandas-dataframe
         self.df['DateString'] = self.df['DateOnly'].astype('|S').apply(lambda s: s.decode('utf-8'))
@@ -64,35 +68,15 @@ class Data:
         #self.df.Time_SameDate2 = self.df.Time_SameDate2.astype(datetime)
         #self.df.EndTime_SameDate2 = self.df.EndTime_SameDate2.astype(datetime)
 
-        self.df.info()
+        #self.df.info()
         #self.df
         #print(len(self.df))
-  
-        #self.dfDay = self.df.TotalDuration == 15
-        #self.dfDay['DateOnly'] = self.df.DateOnly == pd.to_datetime("2017-09-02")
-        #print(self.dfDay)
-
-        #self.dfDay = self.df['TotalDuration'].contains(15)
-        #days = self.df.groupby('DateOnly')
-        #print(days.groups)
-        #print(self.dfDay['Resource'].value_counts())
-        #print(self.df['Resource'].value_counts().Nursing + self.df['Resource'].value_counts().BottlePumped + self.df['Resource'].value_counts().BottleFormula)
-        
+         
         #https://www.geeksforgeeks.org/selecting-rows-in-pandas-dataframe-based-on-conditions/
         #create new dataframe of selected rows
         #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")]
-        self.dfDay = self.df[self.df.DateOnly == pd.to_datetime(self.startDate)]
-        #print(self.dfDay)
-        #print(self.dfDay['Resource'].value_counts())
-        numOfFeeds=self.dfDay['Resource'].value_counts().Nursing + self.dfDay['Resource'].value_counts().BottlePumped + self.dfDay['Resource'].value_counts().BottleFormula
-        print(numOfFeeds)
+        #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime(self.startDate)]
 
-        for singleDate in self.daterange(pd.to_datetime(self.startDate), pd.to_datetime(self.endDate)):
-            #Create new DF for each day
-            self.dfDay = self.df[self.df.DateOnly == pd.to_datetime(singleDate)]
-            numOfFeeds=self.dfDay['Resource'].value_counts().Nursing + self.dfDay['Resource'].value_counts().BottlePumped + self.dfDay['Resource'].value_counts().BottleFormula
-            #Print # of feeds/day
-            print(singleDate.strftime("%Y-%m-%d") + ": " + str(numOfFeeds))
 
     #https://stackoverflow.com/questions/1060279/iterating-through-a-range-of-dates-in-python
     #Create a generator to iterate through a range of dates
@@ -100,7 +84,48 @@ class Data:
         for n in range(int((endDate - startDate).days)):
             yield startDate + timedelta(n)
         
+    def setDFForCounting(self, dataframe):
+        self.dfCopy = dataframe.copy()
+        self.dfCopy['DateOnly'] = self.dfCopy['Time'].dt.date   #object
+        self.dfCopy = self.dfCopy.set_index('Time')
+        #self.dfCopy.info()
+        #print(self.dfCopy)
+        self.dfNight = self.dfCopy.between_time('19:00', '23:59')
+        #print(self.dfNight)
 
+        for singleDate in self.daterange(pd.to_datetime(self.startDate), pd.to_datetime(self.endDate)):
+
+            #Create a dfNight = df0_7pm-12am + df1_12am-7am
+            self.dfDay0 = self.dfCopy[self.dfCopy.DateOnly == pd.to_datetime(singleDate)]
+            self.dfDay1 = self.dfCopy[self.dfCopy.DateOnly == pd.to_datetime(singleDate+timedelta(days=1))]
+            
+            df_7pm_12am = self.dfDay0.between_time('19:00', '23:59')
+            df_12am_7am = self.dfDay1.between_time('00:00', '07:00')
+            dfNight = pd.concat([df_7pm_12am, df_12am_7am])
+            print(dfNight)
+
+            #Number of feeds at night
+            try:
+                numOfNursing = dfNight['Resource'].value_counts().Nursing
+            except:
+                numOfNursing = 0
+
+            try:
+                numOfBottlePump = dfNight['Resource'].value_counts().BottlePumped
+            except:
+                numOfBottlePump = 0
+
+            try:
+                numOfBottleFormula = dfNight['Resource'].value_counts().BottleFormula
+            except:
+                numOfBottleFormula = 0
+
+            numOfFeeds = numOfNursing + numOfBottlePump + numOfBottleFormula
+            #numOfFeeds = dfNight['Resource'].value_counts().Nursing + dfNight['Resource'].value_counts().BottlePumped + dfNight['Resource'].value_counts().BottleFormula           
+            #Number of sleeps at night
+            numOfSleeps = dfNight['Resource'].value_counts().Sleep
+            print(singleDate.strftime("%Y-%m-%d") + " Night: #ofFeeds=" + str(numOfFeeds) + ", #ofSleeps=" + str(numOfSleeps))
+            #print(singleDate.strftime("%Y-%m-%d") + ": " + str(numOfSleeps))
 
     def setDataFrameDateRange(self, startDate, endDate):
         #print(self.df)
