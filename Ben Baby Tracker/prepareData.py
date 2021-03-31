@@ -79,12 +79,26 @@ class Data:
         #print(self.df['Resource'].value_counts().Nursing + self.df['Resource'].value_counts().BottlePumped + self.df['Resource'].value_counts().BottleFormula)
         
         #https://www.geeksforgeeks.org/selecting-rows-in-pandas-dataframe-based-on-conditions/
-        self.dfDay = self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")]
-        print(self.dfDay)
-        print(self.dfDay['Resource'].value_counts())
-        print(self.dfDay['Resource'].value_counts().Nursing + self.dfDay['Resource'].value_counts().BottlePumped + self.dfDay['Resource'].value_counts().BottleFormula)
-        #print(self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")])
-        #print(self.df[self.df["TotalDuration"] == 15])
+        #create new dataframe of selected rows
+        #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")]
+        self.dfDay = self.df[self.df.DateOnly == pd.to_datetime(self.startDate)]
+        #print(self.dfDay)
+        #print(self.dfDay['Resource'].value_counts())
+        numOfFeeds=self.dfDay['Resource'].value_counts().Nursing + self.dfDay['Resource'].value_counts().BottlePumped + self.dfDay['Resource'].value_counts().BottleFormula
+        print(numOfFeeds)
+
+        for singleDate in self.daterange(pd.to_datetime(self.startDate), pd.to_datetime(self.endDate)):
+            #Create new DF for each day
+            self.dfDay = self.df[self.df.DateOnly == pd.to_datetime(singleDate)]
+            numOfFeeds=self.dfDay['Resource'].value_counts().Nursing + self.dfDay['Resource'].value_counts().BottlePumped + self.dfDay['Resource'].value_counts().BottleFormula
+            #Print # of feeds/day
+            print(singleDate.strftime("%Y-%m-%d") + ": " + str(numOfFeeds))
+
+    #https://stackoverflow.com/questions/1060279/iterating-through-a-range-of-dates-in-python
+    #Create a generator to iterate through a range of dates
+    def daterange(self, startDate, endDate):
+        for n in range(int((endDate - startDate).days)):
+            yield startDate + timedelta(n)
         
 
 
