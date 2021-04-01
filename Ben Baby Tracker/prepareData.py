@@ -32,6 +32,7 @@ class Data:
         #Sort dataframe by Time column. Reset the index
         self.df = self.df.sort_values(by='Time').reset_index(drop=True)
 
+
         #Create new dataframe for counting
         self.setDFForCounting(self.df)
 
@@ -71,21 +72,21 @@ class Data:
         #self.df.Time_SameDate2 = self.df.Time_SameDate2.astype(datetime)
         #self.df.EndTime_SameDate2 = self.df.EndTime_SameDate2.astype(datetime)
 
-        self.df.info()
+        #self.df.info()
         #self.df
         #print(len(self.df))
-        print(self.df) 
+        #print(self.df) 
         #https://www.geeksforgeeks.org/selecting-rows-in-pandas-dataframe-based-on-conditions/
         #create new dataframe of selected rows
         #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")]
         #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime(self.startDate)]
 
         #Get indices of feedings
-        listOfFeedings = self.df.index[(self.df['Resource'] == "Nursing") | (self.df['Resource'] == "BottlePumped") | (self.df['Resource'] == "BottleFormula")].tolist()
-        print(listOfFeedings)
-        self.calculateTimeFromLastFeeding(listOfFeedings)
+        #listOfFeedings = self.df.index[(self.df['Resource'] == "Nursing") | (self.df['Resource'] == "BottlePumped") | (self.df['Resource'] == "BottleFormula")].tolist()
+        #print(listOfFeedings)
+        #self.calculateTimeFromLastFeeding(listOfFeedings)
 
-    def calculateTimeFromLastFeeding(self, listOfFeedings):
+    def calculateTimeFromLastFeeding(self, listOfFeedings, dataframe):
         #Get next element
         #https://www.kite.com/python/answers/how-to-get-the-next-element-while-cycling-through-a-list-in-python
         myList = cycle(listOfFeedings) #Cycle through the listOFFeedings. myList = iterator
@@ -95,8 +96,8 @@ class Data:
         df_feeds = pd.DataFrame(columns = ["Time0_Index", "Time0", "Time1_Index", "Time1", "Time Difference"])
         for i in listOfFeedings:
             nextElement = next(myList)  #Gets the next element in the cycle iterator
-            timeDifference = (self.df.iloc[nextElement]['Time']-self.df.iloc[i]['Time'])/np.timedelta64(1, 'm')
-            list_feedings = [i, self.df.iloc[i]['Time'], nextElement, self.df.iloc[nextElement]['Time'], timeDifference]
+            timeDifference = (dataframe.iloc[nextElement]['TimeRepeat']-dataframe.iloc[i]['TimeRepeat'])/np.timedelta64(1, 'm')
+            list_feedings = [i, dataframe.iloc[i]['TimeRepeat'], nextElement, dataframe.iloc[nextElement]['TimeRepeat'], timeDifference]
             df_feeds_length = len(df_feeds)
             df_feeds.loc[df_feeds_length] = list_feedings
         #print(timeFromLastFeeding)    
@@ -105,8 +106,11 @@ class Data:
         print(df_feeds)
         longestTimeBetweenFeeds = df_feeds["Time Difference"].max()
         index_longestTimeBetweenFeeds = df_feeds["Time Difference"].idxmax()
-        print("longest time since last feeding (min): " + str(longestTimeBetweenFeeds) + " at index: " + str(index_longestTimeBetweenFeeds))
-        #print(df_feeds)
+        time0_longestTime = df_feeds["Time0"][index_longestTimeBetweenFeeds]
+        time1_longestTime = df_feeds["Time1"][index_longestTimeBetweenFeeds]
+        print("longest time since last feeding (min): " + str(longestTimeBetweenFeeds) + " at index: " + str(index_longestTimeBetweenFeeds) + 
+            ". " + str(time0_longestTime) + " and " + str(time1_longestTime))
+        
     #https://stackoverflow.com/questions/41311990/python-pandas-differences-between-two-dates-in-weeks
     def howManyWeeksOld(self, date):
         x = pd.to_datetime(date) - pd.to_datetime("2017-08-02")
@@ -122,6 +126,7 @@ class Data:
     def setDFForCounting(self, dataframe):
         self.dfCopy = dataframe.copy()
         self.dfCopy['DateOnly'] = self.dfCopy['Time'].dt.date   #object
+        self.dfCopy['TimeRepeat'] = self.dfCopy['Time']
         self.dfCopy = self.dfCopy.set_index('Time')
         #self.dfCopy.info()
         #print(self.dfCopy)
@@ -135,31 +140,40 @@ class Data:
             
             df_7pm_12am = self.dfDay0.between_time('19:00', '23:59')
             df_12am_7am = self.dfDay1.between_time('00:00', '07:00')
-            dfNight = pd.concat([df_7pm_12am, df_12am_7am])
-            #print(dfNight)
+            self.dfNight = pd.concat([df_7pm_12am, df_12am_7am])
+            print(self.dfNight)
 
             #Number of feeds at night
             try:
-                numOfNursing = dfNight['Resource'].value_counts().Nursing
+                numOfNursing = self.dfNight['Resource'].value_counts().Nursing
             except:
                 numOfNursing = 0
 
             try:
-                numOfBottlePump = dfNight['Resource'].value_counts().BottlePumped
+                numOfBottlePump = self.dfNight['Resource'].value_counts().BottlePumped
             except:
                 numOfBottlePump = 0
 
             try:
-                numOfBottleFormula = dfNight['Resource'].value_counts().BottleFormula
+                numOfBottleFormula = self.dfNight['Resource'].value_counts().BottleFormula
             except:
                 numOfBottleFormula = 0
 
             numOfFeeds = numOfNursing + numOfBottlePump + numOfBottleFormula
             #numOfFeeds = dfNight['Resource'].value_counts().Nursing + dfNight['Resource'].value_counts().BottlePumped + dfNight['Resource'].value_counts().BottleFormula           
             #Number of sleeps at night
-            numOfSleeps = dfNight['Resource'].value_counts().Sleep
-            #print(singleDate.strftime("%Y-%m-%d") + " Night: #ofFeeds=" + str(numOfFeeds) + ", #ofWakes=" + str(numOfSleeps-1))
+            numOfSleeps = self.dfNight['Resource'].value_counts().Sleep
+            print(singleDate.strftime("%Y-%m-%d") + " Night: #ofFeeds=" + str(numOfFeeds) + ", #ofWakes=" + str(numOfSleeps-1))
             #print(singleDate.strftime("%Y-%m-%d") + ": " + str(numOfSleeps))
+
+            #Reset the index from Time to integer increment
+            self.dfNight = self.dfNight.reset_index(drop=True)
+            #print(self.dfNight)
+            #Get indices of feedings
+            listOfFeedings = self.dfNight.index[(self.dfNight['Resource'] == "Nursing") | (self.dfNight['Resource'] == "BottlePumped") | (self.dfNight['Resource'] == "BottleFormula")].tolist()
+            print(listOfFeedings)
+            self.calculateTimeFromLastFeeding(listOfFeedings, self.dfNight)
+
 
     def setDataFrameDateRange(self, startDate, endDate):
         #print(self.df)
