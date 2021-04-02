@@ -32,11 +32,14 @@ class Data:
         #print(self.df)
         #Sort dataframe by Time column. Reset the index
         self.df = self.df.sort_values(by='Time').reset_index(drop=True)
+        #self.df['longestTimeBtwnFeeds']=0
+        #print(self.df)
 
 
-        #Create new dataframe for counting
-        self.setDFForCounting(self.df)
+        #Analyze data for longest feed, # of feeds, # of wakes
+        self.analyzeDataForStats(self.df)
 
+        #Prepare data to make HLine graph
         #Add a dummy row at the end. Needed for addRowAfterMidnightSleep()
         self.addDummyRowAtEnd()
 
@@ -64,6 +67,7 @@ class Data:
         self.df['AgeInWeeks']=self.howManyWeeksOld(self.df['DateOnly'])
         
         self.addRowAfterMidnightSleep()
+
 
         #Need to change dtype to datetime.date instances
         #https://matplotlib.org/gallery/recipes/common_date_problems.html
@@ -100,7 +104,7 @@ class Data:
         for n in range(int((endDate - startDate).days)):
             yield startDate + timedelta(n)
         
-    def setDFForCounting(self, dataframe):
+    def analyzeDataForStats(self, dataframe):
         self.dfCopy = dataframe.copy()
         self.dfCopy['DateOnly'] = self.dfCopy['Time'].dt.date   #object
         self.dfCopy['TimeRepeat'] = self.dfCopy['Time']
@@ -131,6 +135,7 @@ class Data:
             #print(self.dfNight)
 
             #Add the day objects into the object list, obj_days[]
+            #https://forum.processing.org/two/discussion/19200/create-10-instances-of-an-object-python
             obj_days.append(class_day.Day(  date=singleDate, 
                                             dfNight= self.dfNight,
                                             numOfNightFeeds=0,    #initialize to 0
@@ -157,12 +162,21 @@ class Data:
                                             numOfNightFeeds=numOfFeeds,
                                             numOfNightWakes=numOfSleeps-1))
             '''
-            print(obj_days[i].__dict__)
+            print(obj_days[i].__dict__) #print all attributes of the object
+
+            self.addDataToDF(obj_day=obj_days[i])
             i=i+1
             
         #print(obj_days[0].date)
         #print(obj_days[0].__dict__)
-        
+    
+    def addDataToDF(self, obj_day):
+        #Find index in self.df where Time=obj_day.longestTimeBtwnFeeds_T0
+        index_longestTimeBtwnFeeds = self.df[self.df['Time']==obj_day.longestTimeBtwnFeeds_T0].index.values
+        #at this index (row), make a column and add it longestTestBtwnFeeds, # of Night Feeds, # of Night wakes
+        self.df.loc[index_longestTimeBtwnFeeds, 'longestTimeBtwnFeeds'] = obj_day.longestTimeBtwnFeeds
+        self.df.loc[index_longestTimeBtwnFeeds, '# of Night Feeds'] = obj_day.numOfNightFeeds
+        self.df.loc[index_longestTimeBtwnFeeds, '# of Night Wakes'] = obj_day.numOfNightWakes
 
     def setDataFrameDateRange(self, startDate, endDate):
         #print(self.df)

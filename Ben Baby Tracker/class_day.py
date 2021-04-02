@@ -72,8 +72,8 @@ class Day:
         index_longestTimeBetweenFeeds = df_feeds["Time Difference"].idxmax()
         time0_longestTime = df_feeds["Time0"][index_longestTimeBetweenFeeds]
         time1_longestTime = df_feeds["Time1"][index_longestTimeBetweenFeeds]
-        print("longest time since last feeding (min): " + str(longestTimeBetweenFeeds) + " at index: " + str(index_longestTimeBetweenFeeds) + 
-            ". " + str(time0_longestTime) + " and " + str(time1_longestTime))
+        #print("longest time since last feeding (min): " + str(longestTimeBetweenFeeds) + " at index: " + str(index_longestTimeBetweenFeeds) + 
+        #    ". " + str(time0_longestTime) + " and " + str(time1_longestTime))
 
         self.longestTimeBtwnFeeds = longestTimeBetweenFeeds
         self.longestTimeBtwnFeeds_T0 = time0_longestTime
