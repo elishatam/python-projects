@@ -3,6 +3,7 @@ import time
 import numpy as np
 from datetime import datetime, date, timedelta
 from itertools import cycle
+import class_day
 
 class Data:
     def __init__(self, filename, startDate, endDate):
@@ -132,7 +133,17 @@ class Data:
         #print(self.dfCopy)
         #print(self.dfNight)
 
+        #Create a list of day objects
+        obj_days = []
+        i=0  #iterator
+        #for singleDate in self.daterange(pd.to_datetime(self.startDate), pd.to_datetime(self.endDate)):
+        #    obj_days.append(class_day.Day(date=singleDate))
+        #print(obj_days[0].date)
+
+        
         for singleDate in self.daterange(pd.to_datetime(self.startDate), pd.to_datetime(self.endDate)):
+            #Create day objects
+
 
             #Create a dfNight = df0_7pm-12am + df1_12am-7am
             self.dfDay0 = self.dfCopy[self.dfCopy.DateOnly == pd.to_datetime(singleDate)]
@@ -141,8 +152,18 @@ class Data:
             df_7pm_12am = self.dfDay0.between_time('19:00', '23:59')
             df_12am_7am = self.dfDay1.between_time('00:00', '07:00')
             self.dfNight = pd.concat([df_7pm_12am, df_12am_7am])
-            print(self.dfNight)
+            #print(self.dfNight)
 
+            #Add the day objects into the object list, obj_days[]
+            obj_days.append(class_day.Day(  date=singleDate, 
+                                            dfNight= self.dfNight,
+                                            numOfNightFeeds=0,    #initialize to 0
+                                            numOfNightWakes=0))   #initialize to 0
+            
+            obj_days[i].numOfNightFeeds = obj_days[i].countNumOfNightFeeds()    #Update object
+            obj_days[i].numOfNightWakes = obj_days[i].countNumOfNightWakes()    #Update object
+
+            '''
             #Number of feeds at night
             try:
                 numOfNursing = self.dfNight['Resource'].value_counts().Nursing
@@ -161,19 +182,34 @@ class Data:
 
             numOfFeeds = numOfNursing + numOfBottlePump + numOfBottleFormula
             #numOfFeeds = dfNight['Resource'].value_counts().Nursing + dfNight['Resource'].value_counts().BottlePumped + dfNight['Resource'].value_counts().BottleFormula           
+            
+
             #Number of sleeps at night
             numOfSleeps = self.dfNight['Resource'].value_counts().Sleep
-            print(singleDate.strftime("%Y-%m-%d") + " Night: #ofFeeds=" + str(numOfFeeds) + ", #ofWakes=" + str(numOfSleeps-1))
+            #print(singleDate.strftime("%Y-%m-%d") + " Night: #ofFeeds=" + str(numOfFeeds) + ", #ofWakes=" + str(numOfSleeps-1))
             #print(singleDate.strftime("%Y-%m-%d") + ": " + str(numOfSleeps))
-
+            '''
+            
             #Reset the index from Time to integer increment
-            self.dfNight = self.dfNight.reset_index(drop=True)
-            #print(self.dfNight)
+            self.dfNight_intIndex = self.dfNight.reset_index(drop=True)
             #Get indices of feedings
-            listOfFeedings = self.dfNight.index[(self.dfNight['Resource'] == "Nursing") | (self.dfNight['Resource'] == "BottlePumped") | (self.dfNight['Resource'] == "BottleFormula")].tolist()
-            print(listOfFeedings)
-            self.calculateTimeFromLastFeeding(listOfFeedings, self.dfNight)
+            listOfFeedings = self.dfNight_intIndex.index[(self.dfNight['Resource'] == "Nursing") | (self.dfNight['Resource'] == "BottlePumped") | (self.dfNight['Resource'] == "BottleFormula")].tolist()
+            #print(listOfFeedings)
+            self.calculateTimeFromLastFeeding(listOfFeedings, self.dfNight_intIndex)
 
+            ''' 
+            #Add the day objects into the object list, obj_days[]
+            obj_days.append(class_day.Day(  date=singleDate, 
+                                            dfNight= self.dfNight,
+                                            numOfNightFeeds=numOfFeeds,
+                                            numOfNightWakes=numOfSleeps-1))
+            '''
+            print(obj_days[i].__dict__)
+            i=i+1
+            
+        #print(obj_days[0].date)
+        #print(obj_days[0].__dict__)
+        
 
     def setDataFrameDateRange(self, startDate, endDate):
         #print(self.df)
