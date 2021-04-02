@@ -2,7 +2,6 @@ import pandas as pd
 import time
 import numpy as np
 from datetime import datetime, date, timedelta
-from itertools import cycle
 import class_day
 
 class Data:
@@ -86,17 +85,9 @@ class Data:
         #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")]
         #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime(self.startDate)]
 
-        #Get indices of feedings
-        #listOfFeedings = self.df.index[(self.df['Resource'] == "Nursing") | (self.df['Resource'] == "BottlePumped") | (self.df['Resource'] == "BottleFormula")].tolist()
-        #print(listOfFeedings)
-        #self.calculateTimeFromLastFeeding(listOfFeedings)
 
 
-    #https://stackoverflow.com/questions/41311990/python-pandas-differences-between-two-dates-in-weeks
-    def howManyWeeksOld(self, date):
-        x = pd.to_datetime(date) - pd.to_datetime("2017-08-02")
-        #return int(x / np.timedelta64(1, 'W'))
-        return (x).apply(lambda x: x/np.timedelta64(1,'W')).astype(int)
+
 
     #https://stackoverflow.com/questions/1060279/iterating-through-a-range-of-dates-in-python
     #Create a generator to iterate through a range of dates
@@ -162,7 +153,7 @@ class Data:
                                             numOfNightFeeds=numOfFeeds,
                                             numOfNightWakes=numOfSleeps-1))
             '''
-            print(obj_days[i].__dict__) #print all attributes of the object
+            #print(obj_days[i].__dict__) #print all attributes of the object
 
             self.addDataToDF(obj_day=obj_days[i])
             i=i+1
@@ -244,6 +235,11 @@ class Data:
         self.df = self.df.sort_values(by='Time').reset_index(drop=True)
         #print(self.df)
 
+    #https://stackoverflow.com/questions/41311990/python-pandas-differences-between-two-dates-in-weeks
+    def howManyWeeksOld(self, date):
+        x = pd.to_datetime(date) - pd.to_datetime("2017-08-02")
+        #return int(x / np.timedelta64(1, 'W'))
+        return (x).apply(lambda x: x/np.timedelta64(1,'W')).astype(int)
 
 if __name__ == "__main__":
     testClass = Data(filename='1to6month.csv', 
