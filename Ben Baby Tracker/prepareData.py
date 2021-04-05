@@ -13,6 +13,7 @@ class Data:
         
 
     def prepareData(self):
+        print("in prepareData")
         self.df = pd.read_csv(self.filename)
         self.df.Time = pd.to_datetime(self.df.Time) #dtype: datetime64[ns].
 
@@ -125,6 +126,7 @@ class Data:
             self.dfNight = pd.concat([df_7pm_12am, df_12am_7am])
             #print(self.dfNight)
 
+            
             #Add the day objects into the object list, obj_days[]
             #https://forum.processing.org/two/discussion/19200/create-10-instances-of-an-object-python
             obj_days.append(class_day.Day(  date=singleDate, 
@@ -134,32 +136,34 @@ class Data:
                                             longestTimeBtwnFeeds=0,
                                             longestTimeBtwnFeeds_T0=0))   #initialize to 0
             
-            obj_days[i].numOfNightFeeds = obj_days[i].countNumOfNightFeeds()    #Update object
-            obj_days[i].numOfNightWakes = obj_days[i].countNumOfNightWakes()    #Update object
+            obj_days[i].numOfNightFeeds = obj_days[i].countNumOfNightFeeds(df=self.dfNight)    #Update object
+            obj_days[i].numOfNightWakes = obj_days[i].countNumOfNightWakes(df=self.dfNight)    #Update object
 
-
+            
             #Reset the index from Time to integer increment
             self.dfNight_intIndex = self.dfNight.reset_index(drop=True)
             #Get indices of feedings
             listOfFeedings = self.dfNight_intIndex.index[(self.dfNight['Resource'] == "Nursing") | (self.dfNight['Resource'] == "BottlePumped") | (self.dfNight['Resource'] == "BottleFormula")].tolist()
             #print(listOfFeedings)
             #self.calculateTimeFromLastFeeding(listOfFeedings, self.dfNight_intIndex)
-            obj_days[i].calculateTimeFromLastFeeding(listOfFeedings, self.dfNight_intIndex)
+            #obj_days[i].calculateTimeFromLastFeeding(listOfFeedings, self.dfNight_intIndex)
 
-            ''' 
+             
             #Add the day objects into the object list, obj_days[]
-            obj_days.append(class_day.Day(  date=singleDate, 
-                                            dfNight= self.dfNight,
-                                            numOfNightFeeds=numOfFeeds,
-                                            numOfNightWakes=numOfSleeps-1))
-            '''
+            #obj_days.append(class_day.Day(  date=singleDate, 
+            #                                dfNight= self.dfNight,
+            #                                numOfNightFeeds=numOfFeeds,
+            #                                numOfNightWakes=numOfSleeps-1))
+            
             #print(obj_days[i].__dict__) #print all attributes of the object
 
             self.addDataToDF(obj_day=obj_days[i])
             i=i+1
             
+            
         #print(obj_days[0].date)
         #print(obj_days[0].__dict__)
+        
     
     def addDataToDF(self, obj_day):
         #Find index in self.df where Time=obj_day.longestTimeBtwnFeeds_T0

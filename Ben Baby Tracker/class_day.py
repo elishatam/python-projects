@@ -24,30 +24,36 @@ class Day:
         self.numOfNightWakes = numOfNightWakes
     '''    
 
-    def countNumOfNightFeeds(self):
+    def countNumOfNightFeeds(self, df):
         #Number of feeds at night
         try:
-            numOfNursing = self.dfNight['Resource'].value_counts().Nursing
+            numOfNursing = df['Resource'].value_counts().Nursing
         except:
             numOfNursing = 0
 
         try:
-            numOfBottlePump = self.dfNight['Resource'].value_counts().BottlePumped
+            numOfBottlePump = df['Resource'].value_counts().BottlePumped
         except:
             numOfBottlePump = 0
 
         try:
-            numOfBottleFormula = self.dfNight['Resource'].value_counts().BottleFormula
+            numOfBottleFormula = df['Resource'].value_counts().BottleFormula
         except:
             numOfBottleFormula = 0
 
         numOfFeeds = numOfNursing + numOfBottlePump + numOfBottleFormula
 
+        #print(df)
         return numOfFeeds
 
-    def countNumOfNightWakes(self):
-        numOfSleeps = self.dfNight['Resource'].value_counts().Sleep
-        return numOfSleeps - 1
+    def countNumOfNightWakes(self, df):
+        #Number of sleeps at night
+        try:
+            numOfWakes = df['Resource'].value_counts().Sleep - 1
+        except:
+            numOfWakes = 0
+
+        return numOfWakes
 
 
     def calculateTimeFromLastFeeding(self, listOfFeedings, dataframe):
