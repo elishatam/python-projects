@@ -68,7 +68,7 @@ class Data:
         
         self.addRowAfterMidnightSleep()
 
-
+        self.df.to_csv (r'export_testdataframe.csv', index=True, header=True)
         #Need to change dtype to datetime.date instances
         #https://matplotlib.org/gallery/recipes/common_date_problems.html
         #Not needed of python 3.8. Needed for python 3.4
@@ -143,10 +143,14 @@ class Data:
             #Reset the index from Time to integer increment
             self.dfNight_intIndex = self.dfNight.reset_index(drop=True)
             #Get indices of feedings
+            listOfFeedings = []*10  #First initialize the array with 10 empty values
             listOfFeedings = self.dfNight_intIndex.index[(self.dfNight['Resource'] == "Nursing") | (self.dfNight['Resource'] == "BottlePumped") | (self.dfNight['Resource'] == "BottleFormula")].tolist()
+            if not listOfFeedings:  #if myList is empty
+                print("skip calculating time from last feeding for time " + str(obj_days[i].date))
+            else: obj_days[i].calculateTimeFromLastFeeding(listOfFeedings, self.dfNight_intIndex)
             #print(listOfFeedings)
             #self.calculateTimeFromLastFeeding(listOfFeedings, self.dfNight_intIndex)
-            #obj_days[i].calculateTimeFromLastFeeding(listOfFeedings, self.dfNight_intIndex)
+            
 
              
             #Add the day objects into the object list, obj_days[]
