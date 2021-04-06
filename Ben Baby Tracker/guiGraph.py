@@ -13,6 +13,7 @@ from tkinter import ttk
 import datetime as dt
 import prepareData
 import widgetMenu
+import widgetDays
 
 #scrollbar: https://stackoverflow.com/questions/42622146/scrollbar-on-matplotlib-showing-page
 
@@ -23,10 +24,15 @@ class Page(tk.Frame):
         self.parent = parent
         self.startDate = startDate
         self.endDate = endDate
+        self.obj_days_forGraph = []  #initialize empty list
 
         self.data = prepareData.Data(filename='1to6month.csv', 
                     startDate=self.startDate,
-                    endDate=self.endDate)
+                    endDate=self.endDate,
+                    obj_days_forGraph = self.obj_days_forGraph)
+
+        self.obj_days_forGraph = self.data.getObjDaysForGraph()  #Need to do this. Is there a way around this?
+        #print(self.obj_days_forGraph)    #This prints after getObjDaysForGraph(). Otherwise empty
 
         self.fig = plt.figure(1)
         self.fig.set_size_inches(w=8, h=5)
@@ -49,7 +55,9 @@ class Page(tk.Frame):
         #To use this toolbar with grid, need to put it in its own frame
         #toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
         
-
+        self.daysWidget = widgetDays.daysWidget(parent=self, obj_days_forGraph=self.obj_days_forGraph)
+        self.daysWidget.grid(row=1, column=1, 
+            sticky="NESW", padx=5, pady=2)
         
 
 
@@ -69,9 +77,12 @@ class Page(tk.Frame):
         
         self.data = prepareData.Data(filename='1to6month.csv', 
                     startDate=startDate,
-                    endDate=endDate)
+                    endDate=endDate,
+                    obj_days_forGraph = self.obj_days_forGraph)
         
         df = self.data.df
+        self.obj_days_forGraph = self.data.getObjDaysForGraph()  #Need to do this. Is there a way around this?
+        self.daysWidget.updateChart(obj_days_forGraph=self.obj_days_forGraph)
         #plt.cla() #clear axis
         #self.setupAxis()
         self.drawGraph(df = df)

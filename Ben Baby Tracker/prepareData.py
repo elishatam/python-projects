@@ -5,15 +5,16 @@ from datetime import datetime, date, timedelta
 import class_day
 
 class Data:
-    def __init__(self, filename, startDate, endDate):
+    def __init__(self, filename, startDate, endDate, obj_days_forGraph):
+    #def __init__(self, filename, startDate, endDate):
         self.filename = filename
         self.startDate = startDate
         self.endDate = endDate
+        self.obj_days_forGraph = obj_days_forGraph
         self.prepareData()
         
 
     def prepareData(self):
-        print("in prepareData")
         self.df = pd.read_csv(self.filename)
         self.df.Time = pd.to_datetime(self.df.Time) #dtype: datetime64[ns].
 
@@ -159,14 +160,20 @@ class Data:
             #                                numOfNightFeeds=numOfFeeds,
             #                                numOfNightWakes=numOfSleeps-1))
             
-            #print(obj_days[i].__dict__) #print all attributes of the object
+            print(obj_days[i].__dict__) #print all attributes of the object
 
             self.addDataToDF(obj_day=obj_days[i])
             i=i+1
             
-            
+        self.obj_days_forGraph = obj_days
+        #print(self.obj_days_forGraph)  #this prints out
         #print(obj_days[0].date)
         #print(obj_days[0].__dict__)
+
+    def getObjDaysForGraph(self):
+        #print("in getObjDaysForGraph")
+        #print(self.obj_days_forGraph)  
+        return self.obj_days_forGraph
         
     
     def addDataToDF(self, obj_day):

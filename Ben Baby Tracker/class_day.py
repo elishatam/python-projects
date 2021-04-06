@@ -82,13 +82,16 @@ class Day:
         #https://moonbooks.org/Articles/Hot-to-find-the-largest-number-and-its-index-in-a-list-with-python-/
         #print("longest time since last feeding: " + str(max(timeFromLastFeeding)) + " at index: " + str(timeFromLastFeeding.index(max(timeFromLastFeeding))))
         #print(df_feeds)
-        longestTimeBetweenFeeds = df_feeds["Time Difference"].max()
+        longestTimeBetweenFeeds_totalmin = df_feeds["Time Difference"].max()
         index_longestTimeBetweenFeeds = df_feeds["Time Difference"].idxmax()
         time0_longestTime = df_feeds["Time0"][index_longestTimeBetweenFeeds]
         time1_longestTime = df_feeds["Time1"][index_longestTimeBetweenFeeds]
         #print("longest time since last feeding (min): " + str(longestTimeBetweenFeeds) + " at index: " + str(index_longestTimeBetweenFeeds) + 
         #    ". " + str(time0_longestTime) + " and " + str(time1_longestTime))
 
-        self.longestTimeBtwnFeeds = longestTimeBetweenFeeds
+        #longestTimeBetweenFeeds_sec = longestTimeBetweenFeeds_totalmin // 60
+        #longestTimeBetweenFeeds_min = longestTimeBetweenFeeds_totalmin % 60
+        
+        self.longestTimeBtwnFeeds = longestTimeBetweenFeeds_totalmin
         self.longestTimeBtwnFeeds_T0 = time0_longestTime
         
