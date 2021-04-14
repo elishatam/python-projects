@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 '''
 Name: Day class
-Summary: Sets up specific parameters for Day object
+Summary: Sets up specific parameters for Day object.
+Test
          
 '''
 class Day:
