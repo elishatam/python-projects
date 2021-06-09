@@ -1,8 +1,9 @@
 '''
-This script moves the mouse every few seconds/minutes between 2 mouse locations
+This script pressesm the "right" button every "delayBetweenMouseMoves_sec"
 '''
 import pyautogui
 import time
+from random import randrange
 
 def moveMouse(xloc, yloc, duration):
     pyautogui.moveTo(xloc, yloc, duration = duration)
@@ -11,10 +12,22 @@ def keyPress():
     pyautogui.press('right')
 
 if __name__ == "__main__":
-    delayBetweenMouseMoves_sec = 10 
+    #delayBetweenMouseMoves_sec = 10
+    randomSecValueMax = 30 
+    delayBetweenMouseMoves_sec = randrange(randomSecValueMax) 
     startTime = int(round(time.time()))
-    moveToLocation = 0
-    print("moveToLocation: " + str(moveToLocation)+". delay: " + str(delayBetweenMouseMoves_sec))
+    print("Max Delay: " + str(randomSecValueMax))
+    while True:
+        if (int(round(time.time())) - startTime) >= delayBetweenMouseMoves_sec:
+            keyPress()
+            delayBetweenMouseMoves_sec = randrange(30)   #Choose new delay
+            #print("Delay: " + str(delayBetweenMouseMoves_sec))
+            startTime = int(round(time.time())) #new start time  
+            
+
+
+#This is to move mouse from location0 to location1
+'''
     while True: 
         if moveToLocation == 0:
             if (int(round(time.time())) - startTime) >= delayBetweenMouseMoves_sec:
@@ -30,6 +43,6 @@ if __name__ == "__main__":
                 startTime = int(round(time.time())) #new start time  
                 moveToLocation = 0
                 #print("moveToLocation: ", moveToLocation)
-
+'''
 
     
