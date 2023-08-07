@@ -56,6 +56,7 @@ class Page(tk.Frame):
         #toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
         
         self.daysWidget = widgetDays.daysWidget(parent=self, obj_days_forGraph=self.obj_days_forGraph)
+
         self.daysWidget.grid(row=1, column=1, 
             sticky="NESW", padx=5, pady=2)
         
@@ -74,19 +75,20 @@ class Page(tk.Frame):
 
     def updateGraph(self, startDate, endDate):
         print("in UpdateGraph")
-        
+
         self.data = prepareData.Data(filename='1to6month.csv', 
                     startDate=startDate,
                     endDate=endDate,
                     obj_days_forGraph = self.obj_days_forGraph)
         
         df = self.data.df
+
         self.obj_days_forGraph = self.data.getObjDaysForGraph()  #Need to do this. Is there a way around this?
         self.daysWidget.updateChart(obj_days_forGraph=self.obj_days_forGraph)
         #plt.cla() #clear axis
         #self.setupAxis()
         self.drawGraph(df = df)
-        
+
 
 
     def drawGraph(self, df):
@@ -157,7 +159,7 @@ class Page(tk.Frame):
 
     def resize(self, event):
         
-        print(root.winfo_width(), root.winfo_height())
+        #print(root.winfo_width(), root.winfo_height())
         self.fig.set_size_inches(w=root.winfo_width()/120, h=root.winfo_height()/120)
         self.drawGraph(df=self.data.df)
   

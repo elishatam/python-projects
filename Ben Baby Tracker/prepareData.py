@@ -12,13 +12,13 @@ class Data:
         self.endDate = endDate
         self.obj_days_forGraph = obj_days_forGraph
         self.prepareData()
-        
+
 
     def prepareData(self):
         self.df = pd.read_csv(self.filename)
         self.df.Time = pd.to_datetime(self.df.Time) #dtype: datetime64[ns].
 
-        
+
 
         originalDF=self.df.sort_values(by='Time').reset_index(drop=True)
         originalFirstTimeValue = originalDF.iloc[0]['Time'] #Access first row as a series with iloc. dateTime value
@@ -26,7 +26,7 @@ class Data:
 
         originalLastTimeValue = originalDF.iloc[-1]['Time']
         self.originalLastDate = originalLastTimeValue.date()
-               
+
         self.setDataFrameDateRange(self.startDate, self.endDate)
 
         
@@ -44,9 +44,13 @@ class Data:
         #Add a dummy row at the end. Needed for addRowAfterMidnightSleep()
         self.addDummyRowAtEnd()
 
+        '''
         if self.startDate == "2017-08-02":
             print("don't add in firstSleepEntry")
         else:
+            self.addFirstSleepEntry()
+        '''
+        if self.startDate != "2017-08-02":
             self.addFirstSleepEntry()
 
         #Add in necessary columns
@@ -113,21 +117,21 @@ class Data:
         #    obj_days.append(class_day.Day(date=singleDate))
         #print(obj_days[0].date)
 
-        
+
         for singleDate in self.daterange(pd.to_datetime(self.startDate), pd.to_datetime(self.endDate)):
             #Create day objects
 
-
             #Create a dfNight = df0_7pm-12am + df1_12am-7am
-            self.dfDay0 = self.dfCopy[self.dfCopy.DateOnly == pd.to_datetime(singleDate)]
-            self.dfDay1 = self.dfCopy[self.dfCopy.DateOnly == pd.to_datetime(singleDate+timedelta(days=1))]
-            
+            #self.dfDay0 = self.dfCopy[self.dfCopy.DateOnly == pd.to_datetime(singleDate)] #Deprecated
+            #self.dfDay1 = self.dfCopy[self.dfCopy.DateOnly == pd.to_datetime(singleDate+timedelta(days=1))]
+            self.dfDay0 = self.dfCopy[self.dfCopy.DateOnly == (pd.Timestamp(singleDate)).date()]
+            self.dfDay1 = self.dfCopy[self.dfCopy.DateOnly == (pd.Timestamp(singleDate+timedelta(days=1))).date()]
+
             df_7pm_12am = self.dfDay0.between_time('19:00', '23:59')
             df_12am_7am = self.dfDay1.between_time('00:00', '07:00')
             self.dfNight = pd.concat([df_7pm_12am, df_12am_7am])
             #print(self.dfNight)
 
-            
             #Add the day objects into the object list, obj_days[]
             #https://forum.processing.org/two/discussion/19200/create-10-instances-of-an-object-python
             obj_days.append(class_day.Day(  date=singleDate, 
@@ -136,7 +140,8 @@ class Data:
                                             numOfNightWakes=0,
                                             longestTimeBtwnFeeds=0,
                                             longestTimeBtwnFeeds_T0=0))   #initialize to 0
-            
+
+
             obj_days[i].numOfNightFeeds = obj_days[i].countNumOfNightFeeds(df=self.dfNight)    #Update object
             obj_days[i].numOfNightWakes = obj_days[i].countNumOfNightWakes(df=self.dfNight)    #Update object
 
@@ -160,11 +165,11 @@ class Data:
             #                                numOfNightFeeds=numOfFeeds,
             #                                numOfNightWakes=numOfSleeps-1))
             
-            print(obj_days[i].__dict__) #print all attributes of the object
+            #print(obj_days[i].__dict__) #print all attributes of the object #Find print
 
             self.addDataToDF(obj_day=obj_days[i])
             i=i+1
-            
+
         self.obj_days_forGraph = obj_days
         #print(self.obj_days_forGraph)  #this prints out
         #print(obj_days[0].date)
@@ -210,7 +215,8 @@ class Data:
                                  'EndTime_SameDate2': self.df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 
                                  'DateString': self.df.DateString[indexA+1], 
                                  'Resource': 'Sleep'}, index=[indexA+0.5])
-            self.df = self.df.append(line, ignore_index=False)
+            #self.df = self.df.append(line, ignore_index=False) #deprecated
+            self.df = pd.concat(axis=0, join="outer",objs=[self.df,line], ignore_index=False)
 
         #Move EndTime_SameDate2 to midnight. 
         for indexA in midnight_indices:
@@ -226,7 +232,8 @@ class Data:
             "TotalDuration":[1],
             "Resource":["Sleep"]
             })
-        self.df = self.df.append(dfLastDateTime, ignore_index=True)
+        #self.df = self.df.append(dfLastDateTime, ignore_index=True) #deprecated
+        self.df = pd.concat(axis=0, join="outer",objs=[self.df,dfLastDateTime], ignore_index=True)
         #print(self.df)
 
     def addFirstSleepEntry(self):
@@ -244,7 +251,8 @@ class Data:
             "TotalDuration":[dummyTotalDuration_min],
             "Resource":["Sleep"]
             })
-        self.df = self.df.append(dfFirstDateTime, ignore_index=True)
+        #self.df = self.df.append(dfFirstDateTime, ignore_index=True)#deprecated
+        self.df = pd.concat(axis=0, join="outer",objs=[self.df,dfFirstDateTime], ignore_index=True)
         
         #Sort dataframe by Time column. Reset the index
         self.df = self.df.sort_values(by='Time').reset_index(drop=True)

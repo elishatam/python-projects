@@ -46,7 +46,7 @@ class daysWidget(tk.Frame):
         lst = obj_days_forGraph  #This is a list of objects.
                                     #How to change the objects to tuples
 
-        print(lst)
+        #print(lst)
         #print(len(lst))
         #This is a list of tuples.
         #A tuple stores multiple items in a single variable.
