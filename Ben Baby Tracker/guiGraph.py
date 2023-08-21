@@ -42,13 +42,12 @@ class Page(tk.Frame):
                         initStartDate=self.startDate, initEndDate=self.endDate,
                         originalDataFirstDate=self.data.originalFirstDate,
                         originalDataLastDate=self.data.originalLastDate)
-        self.menuWidget.grid(row=0, column=0, 
-            sticky="NESW", padx=5, pady=2)
+        self.menuWidget.grid(row=0, column=0, sticky="NESW", padx=5, pady=2)
 
         self.drawGraph(df = self.data.df)
 
         canvas = FigureCanvasTkAgg(self.fig, master=self)
-        canvas.get_tk_widget().grid(row=1,column=0)
+        canvas.get_tk_widget().grid(row=1,column=0, sticky="NW")
 
         toolbarFrame = tk.Frame(master=root)
         toolbarFrame.grid(row=2,column=0, sticky="W")
@@ -57,9 +56,7 @@ class Page(tk.Frame):
         
         self.daysWidget = widgetDays.daysWidget(parent=self, obj_days_forGraph=self.obj_days_forGraph)
 
-        self.daysWidget.grid(row=1, column=1, 
-            sticky="NESW", padx=5, pady=2)
-        
+        self.daysWidget.grid(row=1, column=1, sticky="NESW", padx=5, pady=2)
 
 
     def onClose(self):
@@ -84,6 +81,7 @@ class Page(tk.Frame):
         df = self.data.df
 
         self.obj_days_forGraph = self.data.getObjDaysForGraph()  #Need to do this. Is there a way around this?
+
         self.daysWidget.updateChart(obj_days_forGraph=self.obj_days_forGraph)
         #plt.cla() #clear axis
         #self.setupAxis()

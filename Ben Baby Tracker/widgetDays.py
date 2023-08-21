@@ -42,11 +42,12 @@ class daysWidget(tk.Frame):
         '''
 
     def updateChart(self, obj_days_forGraph):
-                # take the data
+        self.clearChart()
+        # take the data
         lst = obj_days_forGraph  #This is a list of objects.
                                     #How to change the objects to tuples
 
-        #print(lst)
+        print(lst)
         #print(len(lst))
         #This is a list of tuples.
         #A tuple stores multiple items in a single variable.
@@ -65,6 +66,7 @@ class daysWidget(tk.Frame):
 
         #Label Header
         self.e = ttk.Entry(self.daysFrame, width=20)
+
         self.e.grid(row=0, column=0)
         self.e.insert(tk.END, "Time0 of longest stretch")
 
@@ -109,6 +111,11 @@ class daysWidget(tk.Frame):
             self.e.insert(tk.END, str(int(longestTimeBetweenFeeds_hr)) + "hr " + str(int(longestTimeBetweenFeeds_min))+"min")  
 
 
+    def clearChart(self):
+        #https://stackoverflow.com/questions/15995783/how-to-delete-all-children-elements/15995920#15995920
+        #print("daysFrame children: ", self.daysFrame.winfo_children())
+        for child in self.daysFrame.winfo_children():
+            child.destroy()
 
     def needToUpdateGraph(self, startDate, endDate):
         self.needToUpdateGraphFlag = 1

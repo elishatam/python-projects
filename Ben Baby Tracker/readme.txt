@@ -12,3 +12,9 @@ This is the while loop that updates:
 
 prepareData.py, line 169 has print(obj_days[i].__dict__)
 widgetDays.py, line 49 has print(lst)
+
+To do
+- in widgetDays.py, change Entry to Label so it's not editable? https://www.tutorialspoint.com/python/tk_entry.htm
+- X  Clear widgetDays when update
+-    Add scroll bar to Days widget?
+-    How come some dates have 2 entries?

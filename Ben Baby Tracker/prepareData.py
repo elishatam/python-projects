@@ -90,7 +90,7 @@ class Data:
         #create new dataframe of selected rows
         #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime("2017-09-02")]
         #self.dfDay = self.df[self.df.DateOnly == pd.to_datetime(self.startDate)]
-
+        #print(self.df)
 
 
 
