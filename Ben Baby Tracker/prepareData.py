@@ -65,7 +65,7 @@ class Data:
         #so hlines will stack
         self.df['Time_SameDate']=self.df.Time.map(lambda t: t.replace(year=2019, month=1, day=1)) #https://stackoverflow.com/questions/17152719/change-date-of-a-datetimeindex
         self.df['EndTime_SameDate']=self.df.EndTime.map(lambda t: t.replace(year=2019, month=1, day=1))
-        self.df['Daydifference']=self.df.DateOnly - date(2017,8,2)
+        self.df['Daydifference']=pd.to_timedelta(self.df.DateOnly - date(2017,8,2))
         #Make all the dates the same day (8/2/2017)
         self.df['Time_SameDate2']=self.df.Time - self.df.Daydifference
         self.df['EndTime_SameDate2']=self.df.EndTime - self.df.Daydifference
@@ -211,7 +211,7 @@ class Data:
         #Insert a new row after these indices. Make EndTime of new row the same as EndTime of indexA
         for indexA in midnight_indices:
             #https://stackoverflow.com/questions/15888648/is-it-possible-to-insert-a-row-at-an-arbitrary-position-in-a-dataframe-using-pan?rq=1
-            line = pd.DataFrame({'Time_SameDate2': pd.to_datetime(["2017-08-02 00:00:00"]),
+            line = pd.DataFrame({'Time_SameDate2': pd.to_datetime("2017-08-02 00:00:00"),
                                  'EndTime_SameDate2': self.df.EndTime_SameDate2[indexA] - pd.Timedelta(days=1), 
                                  'DateString': self.df.DateString[indexA+1], 
                                  'Resource': 'Sleep'}, index=[indexA+0.5])
@@ -220,8 +220,8 @@ class Data:
 
         #Move EndTime_SameDate2 to midnight. 
         for indexA in midnight_indices:
-            self.df.iloc[indexA, self.df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime(["2017-08-03 00:00:00"])
-
+            self.df.iloc[indexA, self.df.columns.get_loc('EndTime_SameDate2')] = pd.to_datetime("2017-08-03 00:00:00")
+            
         self.df = self.df.sort_index().reset_index(drop=True)
 
     def addDummyRowAtEnd(self):
