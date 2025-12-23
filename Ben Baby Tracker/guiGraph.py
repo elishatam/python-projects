@@ -36,7 +36,11 @@ class Page(tk.Frame):
 
         self.fig = plt.figure(1)
         self.fig.set_size_inches(w=8, h=5)
-        self.ax = self.fig.add_subplot(111)    
+        self.ax = self.fig.add_subplot(111)
+
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=0)
 
         self.menuWidget = widgetMenu.menuWidget(parent=self, 
                         initStartDate=self.startDate, initEndDate=self.endDate,
@@ -46,11 +50,12 @@ class Page(tk.Frame):
 
         self.drawGraph(df = self.data.df)
 
-        canvas = FigureCanvasTkAgg(self.fig, master=self)
-        canvas.get_tk_widget().grid(row=1,column=0, sticky="NW")
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
+        self.canvas.get_tk_widget().grid(row=1, column=0, sticky="NESW")
+        self.canvas.get_tk_widget().bind("<Configure>", self.resize, add="+")
 
-        toolbarFrame = tk.Frame(master=root)
-        toolbarFrame.grid(row=2,column=0, sticky="W")
+        toolbarFrame = tk.Frame(master=self)
+        toolbarFrame.grid(row=2, column=0, sticky="W")
         #To use this toolbar with grid, need to put it in its own frame
         #toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
         
@@ -90,7 +95,7 @@ class Page(tk.Frame):
 
 
     def drawGraph(self, df):
-        plt.cla() #clear axis
+        self.ax.clear() #clear axis
 
         self.ax.xaxis.set_major_formatter(dtm.DateFormatter('%I:%M %p'))
         self.ax.xaxis.set_major_locator(dtm.HourLocator(byhour=range(0,24,4)))
@@ -116,7 +121,7 @@ class Page(tk.Frame):
         #self.ax = plt.hlines(df.DateString, dtm.date2num(df.Time_SameDate2), dtm.date2num(df.EndTime_SameDate2), linewidth=8, color=df['Resource'].map(self.colors))
         #Had to change 'self.ax' to another name. It was redefining self.ax to be a list returned by the hlines command
         #https://stackoverflow.com/questions/48376000/matplotlib-plotting-attributeerror-list-object-has-no-attribute-xaxis
-        lines = plt.hlines(y=df.DateString, 
+        lines = self.ax.hlines(y=df.DateString,
                            xmin=dtm.date2num(df.Time_SameDate2), 
                            xmax=dtm.date2num(df.EndTime_SameDate2), 
                            linewidth=self.menuWidget.hlineWidth, 
@@ -128,20 +133,30 @@ class Page(tk.Frame):
         sleep_patch=mpatches.Patch(color=self.colors["Sleep"], label='Sleep')
         nursing_patch=mpatches.Patch(color=self.colors["Nursing"], label='Nursing')
         diaper_patch=mpatches.Patch(color=self.colors["Wet"], label='Diaper')
-        bottle_patch=mpatches.Patch(color=self.colors["BottleFormula"], label='Bottle')
+        #bottle_patch=mpatches.Patch(color=self.colors["BottleFormula"], label='Bottle')
         eat_patch=mpatches.Patch(color=self.colors["Eat"], label='Eat')
         work_patch=mpatches.Patch(color=self.colors["Work"], label='Personal')
 
         
-        plt.legend(handles=[sleep_patch,nursing_patch, diaper_patch, eat_patch, work_patch], bbox_to_anchor=(0., -.1, 1, .102), loc=3,
+        #self.ax.legend(handles=[sleep_patch,nursing_patch, diaper_patch, eat_patch, work_patch], bbox_to_anchor=(0., -.1, 1, .102), loc=3,
         #plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, eat_patch, work_patch], bbox_to_anchor=(0., 1.02, 1, .102), loc=3,
-                   ncol=5, mode="expand", borderaxespad=0.) #bbox_to_anchor=(0.9, 0.3)
+        #           ncol=5, mode="expand", borderaxespad=0.) #bbox_to_anchor=(0.9, 0.3)
+        if hasattr(self, "_legend") and self._legend is not None:
+            self._legend.remove()
+            self._legend = None
+
+        self._legend = self.fig.legend(handles=[sleep_patch, nursing_patch, diaper_patch, eat_patch, work_patch],
+                                       loc="lower center",
+                                       bbox_to_anchor=(0.5, 0.01),
+                                       bbox_transform=self.fig.transFigure,
+                                       ncol=5,
+                                       borderaxespad=0.)
         #plt.legend(handles=[sleep_patch, nursing_patch, diaper_patch, bottle_patch], bbox_to_anchor=(1.05, 1))
         #plt.margins(.15)  #So xticks start at 12:00am
-        plt.xticks(rotation=90)
-        self.fig.tight_layout()  #Border will fit around axis
-        plt.gca().invert_yaxis()
-        plt.subplots_adjust(bottom=0.13)
+        self.ax.tick_params(axis="x", labelrotation=90, pad=-3)
+        #self.ax.tick_params(axis="x", labelrotation=90, pad=-18)
+        self.ax.invert_yaxis()
+        self.fig.subplots_adjust(left=0.16, right=0.99, top=0.85, bottom=0.30)
         #plt.subplots_adjust(bottom=0.19, top=0.92)
         #plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
         #plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
@@ -152,29 +167,31 @@ class Page(tk.Frame):
         #self.ax.plot()
 
         #https://stackoverflow.com/questions/4098131/how-to-update-a-plot-in-matplotlib
-        self.fig.canvas.draw()
-        self.fig.canvas.flush_events()
+        if hasattr(self, "canvas"):
+            self.canvas.draw_idle()
+        else:
+            self.fig.canvas.draw()
+            self.fig.canvas.flush_events()
 
     def resize(self, event):
-        
-        #print(root.winfo_width(), root.winfo_height())
-        self.fig.set_size_inches(w=root.winfo_width()/120, h=root.winfo_height()/120)
-        self.drawGraph(df=self.data.df)
-  
+        self.fig.subplots_adjust(left=0.16, right=0.99, top=0.92, bottom=0.30)
+        self.canvas.draw_idle()
 
 
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Graph")
     app = Page(parent=root, startDate="2017-9-10", endDate="2017-9-25")  #This is to test the pageEngineer
-    app.grid(row=0, column=0, sticky="W")
+    root.grid_rowconfigure(0, weight=1)
+    root.grid_columnconfigure(0, weight=1)
+    app.grid(row=0, column=0, sticky="NESW")
     #w=1000
     #h=650
     #x=1040
     #y=700
     #root.geometry('%dx%d+%d+%d' % (w,h,x,y)) #Position window
     root.protocol("WM_DELETE_WINDOW",app.onClose)
-    #root.bind("<Configure>", app.resize)
+    #root.bind("<Configure>", app.resize) # Resize is handled by the canvas widget's <Configure> binding
 
     while True:
         root.update_idletasks()
